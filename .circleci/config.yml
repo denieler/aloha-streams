@@ -1,0 +1,34 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.9-stretch-browsers
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run:
+          name: Install Hyper
+          command: |
+            wget https://hyper-install.s3.amazonaws.com/hyper-linux-x86_64.tar.gz
+            tar xzf hyper-linux-x86_64.tar.gz
+            ./hyper --help
+
+      - run: hyper compose up -f docker-compose.yml
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn test
+
+

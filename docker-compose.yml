@@ -1,0 +1,27 @@
+version: '2'
+services:
+  nodejs_server:
+    container_name: nodejs_server
+    restart: always
+    build: ./src/server
+    ports:
+      - "3000:3000"
+    links:
+      - db_mongo
+
+  db_mongo:
+    container_name: db_mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+
+  public_site:
+    container_name: public_site
+    restart: always
+    build: ./src/site
+    ports:
+      - "8083:8083"
+    links:
+      - nodejs_server
