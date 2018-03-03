@@ -11,11 +11,6 @@ jobs:
       - checkout
       - setup_remote_docker
 
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      
       - run: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
       - run:
@@ -40,8 +35,3 @@ jobs:
       - run:
           name: Deploy
           command: ./deploy_to_aws.sh
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
