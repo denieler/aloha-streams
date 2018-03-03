@@ -7,9 +7,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.9-stretch-browsers
-    machine: true
     steps:
       - checkout
+      - setup_remote_docker
 
       - restore_cache:
           keys:
