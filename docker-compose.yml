@@ -2,8 +2,10 @@ version: '2'
 services:
   nodejs_server:
     container_name: nodejs_server
+    mem_limit: 350000000
     restart: always
     build: ./src/server
+    image: denieler/wannacommit_nodejs_server:latest
     ports:
       - "3000:3000"
     links:
@@ -11,16 +13,17 @@ services:
 
   db_mongo:
     container_name: db_mongo
+    mem_limit: 350000000
     image: mongo
-    volumes:
-      - ./data:/data/db
     ports:
       - "27017:27017"
 
   public_site:
     container_name: public_site
+    mem_limit: 250000000
     restart: always
     build: ./src/site
+    image: denieler/wannacommit_public_site:latest
     ports:
       - "8083:8083"
     links:

@@ -16,19 +16,28 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: Install Hyper
-          command: |
-            wget https://hyper-install.s3.amazonaws.com/hyper-linux-x86_64.tar.gz
-            tar xzf hyper-linux-x86_64.tar.gz
-            ./hyper --help
+        name: Install Docker Compose
+        command: |
+          curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+          chmod +x ~/docker-compose
+          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: docker-compose build
+      
+      - run: docker push denieler/wannacommit_nodejs_server:latest
+      - run: docker push denieler/wannacommit_public_site:latest
 
-      - run: hyper compose up -f docker-compose.yml
+      - run:
+        name: Install AWS ECS cli
+        command: |
+          sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+          sudo chmod +x /usr/local/bin/ecs-cli
+      - run: ecs-cli --version
+
+      - run:
+          name: Deploy
+          command: ./deploy_to_aws.sh
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn test
-
-

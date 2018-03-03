@@ -5,4 +5,4 @@ COPY package.json /usr/src/app/
 RUN yarn
 COPY . /usr/src/app
 EXPOSE 8083
-CMD [ “npm”, “start” ]
+CMD [ "npm", "start" ]
