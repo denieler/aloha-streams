@@ -15,12 +15,15 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
 
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
       - run:
           name: Install Docker Compose
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      
       - run: docker-compose build
       
       - run: docker push denieler/wannacommit_nodejs_server:latest
