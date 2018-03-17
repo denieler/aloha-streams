@@ -4,5 +4,5 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN yarn
 COPY . /usr/src/app
-EXPOSE 3000
+EXPOSE 8083
 CMD [ "npm", "start" ]

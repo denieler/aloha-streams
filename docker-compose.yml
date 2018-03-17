@@ -7,14 +7,14 @@ services:
     build: ./src/server
     image: denieler/wannacommit_nodejs_server:latest
     ports:
-      - "3000:3000"
+      - "8083:8083"
     links:
       - db_mongo
 
   db_mongo:
     container_name: db_mongo
     mem_limit: 350000000
-    image: mongo
+    image: mongo:3.4
     ports:
       - "27017:27017"
 
@@ -24,7 +24,14 @@ services:
     restart: always
     build: ./src/site
     image: denieler/wannacommit_public_site:latest
+    environment:
+      - MONGODB_URI=mongodb://db_mongo:27017/test 
     ports:
-      - "8083:8083"
+      - "3000:3000"
     links:
       - nodejs_server
+      - db_mongo
+    depends_on: 
+      - db_mongo
+    volumes:
+      - /starter/node_modules
