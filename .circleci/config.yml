@@ -37,4 +37,4 @@ jobs:
 
       - run:
           name: Deploy
-          command: ./deploy_to_aws.sh
+          command: ./deploy-to-aws.sh
