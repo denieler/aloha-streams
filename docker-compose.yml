@@ -14,7 +14,7 @@ services:
   db_mongo:
     container_name: db_mongo
     mem_limit: 350000000
-    image: mongo:3.4
+    image: mongo
     ports:
       - "27017:27017"
 
@@ -33,5 +33,3 @@ services:
       - db_mongo
     depends_on: 
       - db_mongo
-    volumes:
-      - /starter/node_modules
