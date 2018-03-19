@@ -4,13 +4,14 @@ block content
   .page-header
     h3 New Challenge
 
-  form(method='PUT')
+  form(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label(for='name') Write here your challenge task:
       input.form-control(type='text', name='name', id='name', autofocus=true)
     .form-group
       label(for='description') Do you want to explain in details?
+        small &nbsp;(optional)
       textarea.form-control(type='text', name='description', id='description', rows='4')
     .form-group
       label(for='reward') Reward for the streamer (..if challenge will be accomplished):
@@ -32,4 +33,7 @@ block content
       label.radio-inline(for='duration-3hours') 
           input(type='radio', name='duration', id='duration-3hours', value=3*60*60*1000)
           | 3 hours
+    .form-group
+      label(for='nickname') Your name:
+      input.form-control(type='text', name='nickname', id='nickname')
     button.btn.btn-primary(type='submit') Create the challenge
