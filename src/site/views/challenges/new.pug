@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 New Challenge
+
+  form(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label(for='name') Write here your challenge task:
+      input.form-control(type='text', name='name', id='name', autofocus=true)
+    .form-group
+      label(for='description') Do you want to explain in details?
+        small &nbsp;(optional)
+      textarea.form-control(type='text', name='description', id='description', rows='4')
+    .form-group
+      label(for='reward') Reward for the streamer (..if challenge will be accomplished):
+      .input-group
+        .input-group-addon $
+        input.form-control(type='number', name='reward', id='reward', min='0.00', max='10000.00' step='0.01')
+    .form-group
+      small The mandatory commission in 1$ will be charged as a donation to the streamer.
+    .form-group
+      label.radio-inline(for='duration-5minutes')
+          input(type='radio', name='duration', id='duration-5minutes', value=5*60*1000)
+          | 5 minutes
+      label.radio-inline(for='duration-10minutes')
+          input(type='radio', name='duration', id='duration-10minutes', value=10*60*1000)
+          | 10 minutes
+      label.radio-inline(for='duration-1hour')
+          input(type='radio', name='duration', id='duration-1hour', value=1*60*60*1000)
+          | 1 hour
+      label.radio-inline(for='duration-3hours') 
+          input(type='radio', name='duration', id='duration-3hours', value=3*60*60*1000)
+          | 3 hours
+    .form-group
+      label(for='nickname') Your name:
+      input.form-control(type='text', name='nickname', id='nickname')
+    button.btn.btn-primary(type='submit') Create the challenge
