@@ -21,7 +21,6 @@ exports.getSuccessNewChallenge = (req, res) => {
  * Create new challenge (supposed to be PUT method)
  */
 exports.putNewChallenge = (req, res, next) => {
-  console.log('Body:', req.body)
   const errors = req.validationErrors();
 
   if (errors) {
@@ -29,12 +28,14 @@ exports.putNewChallenge = (req, res, next) => {
     return res.redirect('/signup');
   }
 
-  const streamerId = 1
+  const streamerId = '5ab0233331f423a7c0184793'
+  const fee = 1
+
   Challenge.add({
     name: req.body.name,
     description: req.body.description,
     price: req.body.reward,
-    fee: 1,
+    fee,
     duration: req.body.duration,
     nickname: req.body.nickname,
     streamerId,
