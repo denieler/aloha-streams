@@ -21,11 +21,15 @@ exports.getSuccessNewChallenge = (req, res) => {
  * Create new challenge (supposed to be PUT method)
  */
 exports.putNewChallenge = (req, res, next) => {
+  req.assert('name', 'Challenge task cannot be blank').notEmpty()
+  req.assert('reward', 'Reward for the challenge cannot be empty or zero').notEmpty()
+  req.assert('duration', 'Duration for the challenge cannot be empty or zero').notEmpty()
+
   const errors = req.validationErrors();
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/signup');
+    return res.redirect('/challenges/new');
   }
 
   const streamerId = null
