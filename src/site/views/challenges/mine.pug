@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Challenges
+
+    div
+      each challenge in challenges
+        div
+          div #{challenge.name}
+          div #{challenge.description}
+          div #{challenge.price}
+          div #{challenge.fee}
+          div #{challenge.duration}
+          if challenge.currentChallengeStatusId
+            div #{challenge.currentChallengeStatusId.status}

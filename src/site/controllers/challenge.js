@@ -1,4 +1,5 @@
 const Challenge = require('../models/Challenge')
+const User = require('../models/User')
 
 /**
  * GET /challenges/new
@@ -48,5 +49,32 @@ exports.putNewChallenge = (req, res, next) => {
 
       return res.render('challenges/success', {});
     }
+  })
+}
+
+
+/**
+ * GET /challenges/mine
+ * Page of Challenges of the streamer
+ */
+exports.getMyStreamerChallenges = (req, res) => {
+  if (!req.user) {
+    return res.redirect('/')
+  }
+
+  const streamerChallengesQuery = Challenge
+    .find({
+      streamerId: req.user.id
+    })
+    .limit(10)
+    .sort({ createdAt: -1 })
+    .populate('currentChallengeStatusId')
+
+  streamerChallengesQuery
+  .then(challenges => {
+    console.log(challenges)
+    res.render('challenges/mine', {
+      challenges
+    })
   })
 }

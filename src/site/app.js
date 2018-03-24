@@ -141,9 +141,12 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
 app.get('/challenges/new', challengeController.getNewChallenge);
 app.post('/challenges/new', challengeController.putNewChallenge);
 app.get('/challenges/success', challengeController.getSuccessNewChallenge);
+
+app.get('/challenges/mine', passportConfig.isAuthenticated, challengeController.getMyStreamerChallenges);
 
 /**
  * API examples routes.
