@@ -74,6 +74,7 @@ exports.getMyStreamerChallenges = (req, res) => {
   .then(challenges => {
     console.log(challenges)
     res.render('challenges/mine', {
+      title: 'Challenges',
       challenges
     })
   })
