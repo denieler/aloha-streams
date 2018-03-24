@@ -69,7 +69,7 @@ exports.getMyStreamerChallenges = (req, res) => {
     })
     .limit(10)
     .sort({ createdAt: -1 })
-    .populate('currentChallengeStatusId')
+    .populate('currentChallengeStatus')
 
   streamerChallengesQuery
   .then(challenges => {

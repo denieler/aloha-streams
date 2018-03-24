@@ -11,7 +11,7 @@ const challengeSchema = new mongoose.Schema({
   fee: Number,
   duration: Number,
 
-  currentChallengeStatusId: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' },
+  currentChallengeStatus: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' },
   challengeStatuses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' }],
 
   viewerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Viewer' },
@@ -47,7 +47,7 @@ Challenge.add = ({
   })
   newChallengeStatus.save()
 
-  challenge.currentChallengeStatusId = newChallengeStatusId
+  challenge.currentChallengeStatus = newChallengeStatusId
   challenge.challengeStatuses = [newChallengeStatusId]
 
   // add viewer
@@ -80,7 +80,7 @@ Challenge.changeStatus = ({ challengeId, status, reason, callback }) => {
     {_id: challengeId},
     {
       $push: { challengeStatuses: challengeStatus },
-      currentChallengeStatusId: challengeStatusId
+      currentChallengeStatus: challengeStatusId
     },
     callback
   )
