@@ -30,7 +30,7 @@ Challenge.add = ({
   streamerId,
   callback
 }) => {
-  var challenge = new Challenge({
+  const challenge = new Challenge({
     name,
     description,
     price,
@@ -40,7 +40,7 @@ Challenge.add = ({
   
   // add challenge status
   const newChallengeStatusId = mongoose.Types.ObjectId()
-  var newChallengeStatus = new ChallengeStatus({
+  const newChallengeStatus = new ChallengeStatus({
     _id: newChallengeStatusId,
     status: CHALLENGE_STATUS.NEW,
     reason: null
@@ -64,6 +64,26 @@ Challenge.add = ({
   challenge.save(err => {
     callback(err)
   })
+}
+
+Challenge.changeStatus = ({ challengeId, status, reason, callback }) => {
+  const challengeStatusId = mongoose.Types.ObjectId()
+  const challengeStatus = new ChallengeStatus({
+    _id: challengeStatusId,
+    status,
+    reason: null
+  })
+  challengeStatus.save()
+
+
+  Challenge.update(
+    {_id: challengeId},
+    {
+      $push: { challengeStatuses: challengeStatus },
+      currentChallengeStatusId: challengeStatusId
+    },
+    callback
+  )
 }
 
 module.exports = Challenge;

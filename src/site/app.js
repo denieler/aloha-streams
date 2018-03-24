@@ -147,6 +147,9 @@ app.post('/challenges/new', challengeController.putNewChallenge);
 app.get('/challenges/success', challengeController.getSuccessNewChallenge);
 
 app.get('/challenges/mine', passportConfig.isAuthenticated, challengeController.getMyStreamerChallenges);
+app.post('/challenge/accept', challengeController.postAcceptChallenge);
+app.post('/challenge/reject', challengeController.postRejectChallenge);
+app.post('/challenge/done', challengeController.postDoneChallenge);
 
 /**
  * API examples routes.

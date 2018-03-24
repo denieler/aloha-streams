@@ -1,4 +1,5 @@
 const Challenge = require('../models/Challenge')
+const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const User = require('../models/User')
 
 /**
@@ -77,5 +78,47 @@ exports.getMyStreamerChallenges = (req, res) => {
       title: 'Challenges',
       challenges
     })
+  })
+}
+
+exports.postAcceptChallenge = (req, res) => {
+  const challengeId = req.body.challengeId
+
+  Challenge.changeStatus({
+    challengeId,
+    status: CHALLENGE_STATUS.ACCEPTED,
+    callback: (err) => {
+      res.json({
+        error: err
+      })
+    }
+  })
+}
+
+exports.postRejectChallenge = (req, res) => {
+  const challengeId = req.body.challengeId
+
+  Challenge.changeStatus({
+    challengeId,
+    status: CHALLENGE_STATUS.REJECTED,
+    callback: (err) => {
+      res.json({
+        error: err
+      })
+    }
+  })
+}
+
+exports.postDoneChallenge = (req, res) => {
+  const challengeId = req.body.challengeId
+
+  Challenge.changeStatus({
+    challengeId,
+    status: CHALLENGE_STATUS.DONE,
+    callback: (err) => {
+      res.json({
+        error: err
+      })
+    }
   })
 }
