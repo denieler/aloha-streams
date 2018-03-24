@@ -14,8 +14,8 @@ const challengeSchema = new mongoose.Schema({
   currentChallengeStatus: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' },
   challengeStatuses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' }],
 
-  viewerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Viewer' },
-  streamerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  viewer: { type: mongoose.Schema.Types.ObjectId, ref: 'Viewer' },
+  streamer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true })
   
 const Challenge = mongoose.model('Challenge', challengeSchema);
@@ -57,9 +57,9 @@ Challenge.add = ({
     nickname
   })
   viewer.save()
-  challenge.viewerId = viewer
+  challenge.viewer = viewer
 
-  challenge.streamerId = streamerId
+  challenge.streamer = streamerId
 
   challenge.save(err => {
     callback(err)
