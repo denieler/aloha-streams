@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Challenges
+
+    div
+      input(id='_csrf', type='hidden', name='_csrf', value=_csrf)
+      each challenge in challenges
+        .panel.panel-default(
+            data-challenge-id=challenge._id,
+            class={
+              'challenge-panel--finished': challenge.currentChallengeStatus.status === 'DONE' || challenge.currentChallengeStatus.status === 'REJECTED'
+            })
+          .panel-heading(style='display: flex; justify-content: space-between;')
+            div
+              h3.panel-title(style='padding-bottom: 10px;') Reward: 
+                span(style='font-size: 24px;') $#{challenge.price} 
+                span + $#{challenge.fee} tips
+              h4.panel-title Time: #{challenge.duration / 1000 / 60} min.
+            if challenge.currentChallengeStatus.status === 'NEW' || challenge.currentChallengeStatus.status === 'REJECTED'
+              div #{challenge.currentChallengeStatus.status}
+          .panel-body
+            div(style='font-size: 16px;') #{challenge.name}
+            if challenge.description
+              div(style='margin-top: 25px; font-size: 16px;')
+                div Description:
+                div #{challenge.description}
+          if challenge.currentChallengeStatus.status === 'NEW'
+            .panel-footer.accept-reject-footer
+              button.btn.btn-success.accept-challenge(type='button', style='margin-right: 5px;', data-challenge-id=challenge._id) Accept
+              button.btn.btn-danger.reject-challenge(type='button', data-challenge-id=challenge._id) Reject
+          
+          if challenge.currentChallengeStatus.status !== 'NEW' && challenge.currentChallengeStatus.status !== 'DONE' && challenge.currentChallengeStatus.status !== 'REJECTED'
+            .panel-footer.done-footer
+              button.btn.btn-success.done-challenge(type='button', style='margin-right: 5px;', data-challenge-id=challenge._id) Done
+              button.btn.btn-danger.reject-challenge(type='button', data-challenge-id=challenge._id) Can't do it

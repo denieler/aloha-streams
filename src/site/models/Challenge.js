@@ -1,11 +1,8 @@
 const mongoose = require('mongoose')
-const CHALLENGE_STATUS = require('../constants/challengeStatus')
 
-const ChallengeStatusSchema = new mongoose.Schema({
-  _id: mongoose.Schema.ObjectId,
-  status: String,
-  reason: String
-})
+const ChallengeStatus = require('./ChallengeStatus')
+const Viewer = require('./Viewer')
+const CHALLENGE_STATUS = require('../constants/challengeStatus')
 
 const challengeSchema = new mongoose.Schema({
   name: String,
@@ -14,15 +11,11 @@ const challengeSchema = new mongoose.Schema({
   fee: Number,
   duration: Number,
 
-  challengeStatusId: mongoose.Schema.ObjectId,
-  challengeStatus: [ChallengeStatusSchema],
+  currentChallengeStatus: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' },
+  challengeStatuses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge_Status' }],
 
-  userId: mongoose.Schema.ObjectId,
-  user: {
-    nickname: String
-  },
-
-  streamerId: mongoose.Schema.ObjectId
+  viewer: { type: mongoose.Schema.Types.ObjectId, ref: 'Viewer' },
+  streamer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true })
   
 const Challenge = mongoose.model('Challenge', challengeSchema);
@@ -37,29 +30,60 @@ Challenge.add = ({
   streamerId,
   callback
 }) => {
-  var challenge = new Challenge({
+  const challenge = new Challenge({
     name,
     description,
     price,
     fee,
     duration
   })
-
-  const challengeStatusId = mongoose.Types.ObjectId()
-  challenge.challengeStatus.push({
-    _id: challengeStatusId,
+  
+  // add challenge status
+  const newChallengeStatusId = mongoose.Types.ObjectId()
+  const newChallengeStatus = new ChallengeStatus({
+    _id: newChallengeStatusId,
     status: CHALLENGE_STATUS.NEW,
     reason: null
   })
-  challenge.challengeStatusId = challengeStatusId
+  newChallengeStatus.save()
 
-  challenge.user = {
+  challenge.currentChallengeStatus = newChallengeStatusId
+  challenge.challengeStatuses = [newChallengeStatusId]
+
+  // add viewer
+  const viewerId = mongoose.Types.ObjectId()
+  const viewer = new Viewer({
+    _id: viewerId,
     nickname
-  }
+  })
+  viewer.save()
+  challenge.viewer = viewer
+
+  challenge.streamer = streamerId
 
   challenge.save(err => {
     callback(err)
   })
+}
+
+Challenge.changeStatus = ({ challengeId, status, reason, callback }) => {
+  const challengeStatusId = mongoose.Types.ObjectId()
+  const challengeStatus = new ChallengeStatus({
+    _id: challengeStatusId,
+    status,
+    reason: null
+  })
+  challengeStatus.save()
+
+
+  Challenge.update(
+    {_id: challengeId},
+    {
+      $push: { challengeStatuses: challengeStatus },
+      currentChallengeStatus: challengeStatusId
+    },
+    callback
+  )
 }
 
 module.exports = Challenge;

@@ -11,6 +11,9 @@
         | Wanna Commit?
     .collapse.navbar-collapse
       ul.nav.navbar-nav
+        if user
+            li(class=(title === 'Challenges') ? 'active' : undefined)
+              a(href='/challenges/mine') My Challenges
         li(class=(title === 'Contact') ? 'active' : undefined)
           a(href='/contact') Contact us
       ul.nav.navbar-nav.navbar-right
