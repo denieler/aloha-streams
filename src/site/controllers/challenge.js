@@ -65,7 +65,7 @@ exports.getMyStreamerChallenges = (req, res) => {
 
   const streamerChallengesQuery = Challenge
     .find({
-      streamerId: req.user.id
+      streamer: req.user.id
     })
     .limit(10)
     .sort({ createdAt: -1 })
