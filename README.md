@@ -1,7 +1,7 @@
 # wanna-commit
 Platform for challenging game streamers
 
-###Development
+### Development
 
 To enter DB go to the `bash` of `db_mongo` container:
 
