@@ -28,7 +28,7 @@ exports.putNewChallenge = (req, res, next) => {
     return res.redirect('/signup');
   }
 
-  const streamerId = '5ab0233331f423a7c0184793'
+  const streamerId = null
   const fee = 1
 
   Challenge.add({
