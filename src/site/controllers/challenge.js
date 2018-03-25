@@ -16,9 +16,17 @@ exports.getNewChallenge = async (req, res) => {
   })
   const fee = configuration ? configuration.fee : DEFAULT_FEE
 
+  const challengeDurations = [
+    { text: '5 minutes', time: 5*60*1000 },
+    { text: '10 minutes', time: 10*60*1000 },
+    { text: '1 hour', time: 1*60*60*1000 },
+    { text: '3 hours', time: 3*60*60*1000 }
+  ]
+
   res.render('challenges/new', {
     streamerId,
-    fee
+    fee,
+    challengeDurations
   })
 }
 
