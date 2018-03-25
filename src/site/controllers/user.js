@@ -381,6 +381,10 @@ exports.postForgot = (req, res, next) => {
  * The challenges configuration page
  */
 exports.getChallengesConfiguration = async (req, res, next) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
   let configuration = {}
   try { 
     configuration = await UserChallengeSetting.getSettings({
