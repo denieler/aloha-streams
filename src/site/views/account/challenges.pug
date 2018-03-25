@@ -32,4 +32,8 @@ block content
     legend Share
 
     p Share this url with your stream viewers.
-    input.form-control(value=shareLink)
+    .input-group
+      input.form-control(value=shareLink, id='share-link')
+      .input-group-btn
+        button.btn.btn-default(data-clipboard-target="#share-link")
+          i.fa.fa-copy
