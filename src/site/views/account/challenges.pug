@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Challenge setup
+
+  div
+    legend Settings
+
+    form(method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.control-label(for='fee') Fee
+        p.small The fee will be charged to the user in any case whether the challenge is completed or not.
+        p.small The fee amount will be transfered to your account.
+        .input-group
+          .input-group-addon $
+          input.form-control(
+            type='number',
+            name='fee',
+            id='fee',
+            min='0.00',
+            max='10000.00'
+            step='0.01',
+            value=configuration.fee || 1
+          )
+      .form-group
+        button.btn.btn-primary(type='submit') Save
+    
+
+  div
+    legend Share
+
+    p Share this url with your stream viewers.
+    .input-group
+      input.form-control(value=shareLink, id='share-link')
+      .input-group-btn
+        button.btn.btn-default(data-clipboard-target="#share-link")
+          i.fa.fa-copy

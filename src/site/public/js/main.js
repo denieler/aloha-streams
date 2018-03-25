@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+  new ClipboardJS('.btn')
+  
   // /challenges/mine
 
   const onChallengeAccepted = (e) => {

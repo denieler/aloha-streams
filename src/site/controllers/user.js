@@ -3,6 +3,7 @@ const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
+const UserChallengeSetting = require('../models/UserChallengeSetting')
 
 /**
  * GET /login
@@ -374,3 +375,60 @@ exports.postForgot = (req, res, next) => {
     .then(() => res.redirect('/forgot'))
     .catch(next);
 };
+
+/**
+ * GET /account/challenges
+ * The challenges configuration page
+ */
+exports.getChallengesConfiguration = async (req, res, next) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
+  let configuration = {}
+  try { 
+    configuration = await UserChallengeSetting.getSettings({
+      streamerId: req.user.id
+    })
+  } catch (error) {
+    next(error)
+  }
+
+  const shareLink = req.protocol +
+    '://' + req.get('host') +
+    '/challenges/new/' + req.user.id
+
+  res.render('account/challenges', {
+    title: 'Challenge setup',
+    configuration,
+    shareLink
+  })
+}
+
+/**
+ * POST /account/challenges
+ * Save challenge configurations
+ */
+exports.postChallengesConfiguration = (req, res, next) => {
+  req.assert('fee', 'Fee can not be empty.').notEmpty()
+
+  const errors = req.validationErrors()
+
+  if (errors) {
+    req.flash('errors', errors)
+    return res.redirect('/account/challenges')
+  }
+
+  const fee = req.body.fee
+
+  UserChallengeSetting.updateSettings({
+    streamerId: req.user.id,
+    fee,
+    callback: error => {
+      if (error) {
+        next(error)
+      }
+      res.redirect('/account/challenges')
+    }
+  })
+}
