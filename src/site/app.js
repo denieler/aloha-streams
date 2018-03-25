@@ -147,8 +147,10 @@ app.post('/account/challenges', passportConfig.isAuthenticated, userController.p
 
 app.get('/challenges/new/:streamerId', challengeController.getNewChallenge);
 app.post('/challenges/new/:streamerId', challengeController.putNewChallenge);
-app.get('/challenges/success', challengeController.getSuccessNewChallenge);
+app.get('/challenge/:challengeId/payment', challengeController.getNewChallengePaymentOptions);
+app.post('/challenge/:challengeId/payment', challengeController.postNewChallengePayment);
 
+app.get('/challenges/success', challengeController.getSuccessNewChallenge);
 app.get('/challenges/mine', passportConfig.isAuthenticated, challengeController.getMyStreamerChallenges);
 app.post('/challenge/accept', challengeController.postAcceptChallenge);
 app.post('/challenge/reject', challengeController.postRejectChallenge);

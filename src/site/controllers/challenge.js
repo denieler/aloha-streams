@@ -3,6 +3,7 @@ const UserChallengeSetting = require('../models/UserChallengeSetting')
 const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const {DEFAULT_FEE} = require('../constants/challengeConfiguration')
 const User = require('../models/User')
+const utils = require('../utils/durationFormatter')
 
 /**
  * GET /challenges/new
@@ -70,10 +71,10 @@ exports.putNewChallenge = async (req, res, next) => {
       duration: req.body.duration,
       nickname: req.body.nickname,
       streamerId,
-      callback: err => {
+      callback: (err, challengeId) => {
         if (err) { return next(err) }
 
-        return res.render('challenges/success', {})
+        return res.redirect(`/challenge/${challengeId}/payment`)
       }
     })
   } catch (err) {
@@ -101,13 +102,74 @@ exports.getMyStreamerChallenges = (req, res) => {
 
   streamerChallengesQuery
   .then(challenges => {
+    const onlyPaidChallenges = challenges.filter(challenge => {
+      return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
+    })
     res.render('challenges/mine', {
       title: 'Challenges',
-      challenges
+      challenges: onlyPaidChallenges
     })
   })
 }
 
+/**
+ * GET /challenge/:challengeId/payment
+ * Page with payment options when creating new challenge
+ */
+exports.getNewChallengePaymentOptions = async (req, res) => {
+  const challengeId = req.params.challengeId
+  const challenge = await Challenge.get({challengeId})
+
+  if (!challenge) {
+    throw new Error('Challenge has not been found. Please contact our support.')
+  }
+
+  console.log(challengeId._id)
+  res.render('challenges/payment-options', {
+    name: challenge.name,
+    description: challenge.description,
+    duration: utils.formatDuration(challenge.duration),
+    price: challenge.price,
+    fee: challenge.fee,
+    challengeId: challenge._id
+  })
+}
+
+/**
+ * POST /challenge/:challengeId/payment
+ * Challenge has been successfully paid
+ */
+exports.postNewChallengePayment = (req, res) => {
+  req.assert('tokenId', 'Token id can not be empty').notEmpty()
+  req.assert('paymentMehtod', 'Payment Method Name can not be empty').notEmpty()
+  
+  const challengeId = req.params.challengeId
+  const tokenId = req.body.tokenId
+  const paymentMehtod = req.body.paymentMehtod
+
+  const errors = req.validationErrors()
+
+  if (errors) {
+    req.flash('errors', errors)
+    return res.redirect(`/challenge/${challengeId}/payment`)
+  }
+
+  Challenge.changeStatus({
+    challengeId,
+    status: CHALLENGE_STATUS.NEW,
+    reason: `${paymentMehtod} - ${tokenId}`,
+    callback: (err) => {
+      res.json({
+        error: err
+      })
+    }
+  })
+}
+
+/**
+ * POST /challenge/accept
+ * Accept challenge
+ */
 exports.postAcceptChallenge = (req, res) => {
   const challengeId = req.body.challengeId
 
@@ -122,6 +184,10 @@ exports.postAcceptChallenge = (req, res) => {
   })
 }
 
+/**
+ * POST /challenge/reject
+ * Reject challenge
+ */
 exports.postRejectChallenge = (req, res) => {
   const challengeId = req.body.challengeId
 
@@ -136,6 +202,10 @@ exports.postRejectChallenge = (req, res) => {
   })
 }
 
+/**
+ * POST /challenge/done
+ * Mark challenge as done
+ */
 exports.postDoneChallenge = (req, res) => {
   const challengeId = req.body.challengeId
 
