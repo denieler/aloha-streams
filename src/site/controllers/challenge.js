@@ -73,7 +73,6 @@ exports.getMyStreamerChallenges = (req, res) => {
 
   streamerChallengesQuery
   .then(challenges => {
-    console.log(challenges)
     res.render('challenges/mine', {
       title: 'Challenges',
       challenges
