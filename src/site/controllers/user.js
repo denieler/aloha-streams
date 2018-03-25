@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
 const UserChallengeSetting = require('../models/UserChallengeSetting')
+const {DEFAULT_FEE} = require('../constants/challengeConfiguration')
 
 /**
  * GET /login
@@ -390,6 +391,12 @@ exports.getChallengesConfiguration = async (req, res, next) => {
     configuration = await UserChallengeSetting.getSettings({
       streamerId: req.user.id
     })
+
+    if (!configuration) {
+      configuration = {
+        fee: DEFAULT_FEE
+      }
+    }
   } catch (error) {
     next(error)
   }

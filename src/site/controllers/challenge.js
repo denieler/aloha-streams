@@ -1,6 +1,7 @@
 const Challenge = require('../models/Challenge')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
 const CHALLENGE_STATUS = require('../constants/challengeStatus')
+const {DEFAULT_FEE} = require('../constants/challengeConfiguration')
 const User = require('../models/User')
 
 /**
@@ -13,7 +14,7 @@ exports.getNewChallenge = async (req, res) => {
   const configuration = await UserChallengeSetting.getSettings({
     streamerId
   })
-  const fee = configuration.fee
+  const fee = configuration ? configuration.fee : DEFAULT_FEE
 
   res.render('challenges/new', {
     streamerId,
@@ -51,7 +52,7 @@ exports.putNewChallenge = async (req, res, next) => {
     const configuration = await UserChallengeSetting.getSettings({
       streamerId
     })
-    const fee = configuration ? configuration.fee : 1
+    const fee = configuration ? configuration.fee : DEFAULT_FEE
 
     Challenge.add({
       name: req.body.name,
