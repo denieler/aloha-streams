@@ -1,4 +1,5 @@
 const Challenge = require('../models/Challenge')
+const UserChallengeSetting = require('../models/UserChallengeSetting')
 const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const User = require('../models/User')
 
@@ -6,8 +7,18 @@ const User = require('../models/User')
  * GET /challenges/new
  * New Challenge page
  */
-exports.getNewChallenge = (req, res) => {
-  res.render('challenges/new', {})
+exports.getNewChallenge = async (req, res) => {
+  const streamerId = req.params.streamerId
+
+  const configuration = await UserChallengeSetting.getSettings({
+    streamerId
+  })
+  const fee = configuration.fee
+
+  res.render('challenges/new', {
+    streamerId,
+    fee
+  })
 }
 
 /**
@@ -22,35 +33,43 @@ exports.getSuccessNewChallenge = (req, res) => {
  * POST /challenges/new
  * Create new challenge (supposed to be PUT method)
  */
-exports.putNewChallenge = (req, res, next) => {
+exports.putNewChallenge = async (req, res, next) => {
+  req.assert('streamerId', 'You have to have the streamer specified to create the new challenge').notEmpty()
   req.assert('name', 'Challenge task cannot be blank').notEmpty()
   req.assert('reward', 'Reward for the challenge cannot be empty or zero').notEmpty()
   req.assert('duration', 'Duration for the challenge cannot be empty or zero').notEmpty()
 
-  const errors = req.validationErrors();
+  const errors = req.validationErrors()
 
   if (errors) {
-    req.flash('errors', errors);
-    return res.redirect('/challenges/new');
+    req.flash('errors', errors)
+    return res.redirect('/challenges/new')
   }
 
-  const streamerId = null
-  const fee = 1
+  const streamerId = req.body.streamerId
+  try {
+    const configuration = await UserChallengeSetting.getSettings({
+      streamerId
+    })
+    const fee = configuration.fee
 
-  Challenge.add({
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.reward,
-    fee,
-    duration: req.body.duration,
-    nickname: req.body.nickname,
-    streamerId,
-    callback: err => {
-      if (err) { return next(err) }
+    Challenge.add({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.reward,
+      fee,
+      duration: req.body.duration,
+      nickname: req.body.nickname,
+      streamerId,
+      callback: err => {
+        if (err) { return next(err) }
 
-      return res.render('challenges/success', {});
-    }
-  })
+        return res.render('challenges/success', {})
+      }
+    })
+  } catch (err) {
+    next(err)
+  }
 }
 
 

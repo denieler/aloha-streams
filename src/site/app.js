@@ -145,8 +145,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.get('/account/challenges', passportConfig.isAuthenticated, userController.getChallengesConfiguration)
 app.post('/account/challenges', passportConfig.isAuthenticated, userController.postChallengesConfiguration)
 
-app.get('/challenges/new', challengeController.getNewChallenge);
-app.post('/challenges/new', challengeController.putNewChallenge);
+app.get('/challenges/new/:streamerId', challengeController.getNewChallenge);
+app.post('/challenges/new/:streamerId', challengeController.putNewChallenge);
 app.get('/challenges/success', challengeController.getSuccessNewChallenge);
 
 app.get('/challenges/mine', passportConfig.isAuthenticated, challengeController.getMyStreamerChallenges);

@@ -6,6 +6,7 @@ block content
 
   form(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden', name='streamerId', value=streamerId)
     .form-group
       label(for='name') Write here your challenge task:
       input.form-control(type='text', name='name', id='name', autofocus=true)
@@ -19,7 +20,7 @@ block content
         .input-group-addon $
         input.form-control(type='number', name='reward', id='reward', min='0.00', max='10000.00' step='0.01')
     .form-group
-      small The mandatory commission in 1$ will be charged as a donation to the streamer.
+      small The mandatory commission in $#{fee || 1} will be charged as a donation to the streamer.
     .form-group
       label.radio-inline(for='duration-5minutes')
           input(type='radio', name='duration', id='duration-5minutes', value=5*60*1000)
