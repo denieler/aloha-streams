@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  script(src='https://checkout.stripe.com/checkout.js')
+  script(src='/js/payment.js')
+
+  .page-header
+    h3 Submit Challenge
+
+  div(style='width: 500px;')
+    div.panel(style='margin: 25px 0; padding: 15px;')
+      h4 #{name}
+      p #{description}
+      p #{duration}
+
+      div(style='display: flex; flex-direction: column; align-items: flex-end;')
+        div Reward: $#{price}
+        div Fee: $#{fee}
+
+    div
+      input(type='hidden', name='_csrf', id='_csrf', value=_csrf)
+      input(type='hidden', name='challengeId', id='challengeId', value=challengeId)
+      input(type='hidden', name='price', id='price', value=price)
+      input(type='hidden', name='fee', id='fee', value=fee)
+      .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
+        label
+          input(type='radio', name='paymentMethod', value='stripe', checked)
+          | Stripe
+        div
+          img(src='/images/logo-stripe.svg', style='width: 80px; height: 38px;')
+      .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
+        label
+          input(type='radio', name='paymentMethod', value='payPal')
+          | PayPal
+        div
+          img(src='/images/logo-paypal.svg', style='width: 80px; height: 38px;')
+      button.btn.btn-primary(id='submit-payment') Submit challenge

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function () {
   new ClipboardJS('.btn')
   
   // /challenges/mine

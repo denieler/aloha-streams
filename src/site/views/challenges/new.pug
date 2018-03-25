@@ -22,18 +22,10 @@ block content
     .form-group
       small The mandatory commission in $#{fee || 1} will be charged as a donation to the streamer.
     .form-group
-      label.radio-inline(for='duration-5minutes')
-          input(type='radio', name='duration', id='duration-5minutes', value=5*60*1000)
-          | 5 minutes
-      label.radio-inline(for='duration-10minutes')
-          input(type='radio', name='duration', id='duration-10minutes', value=10*60*1000)
-          | 10 minutes
-      label.radio-inline(for='duration-1hour')
-          input(type='radio', name='duration', id='duration-1hour', value=1*60*60*1000)
-          | 1 hour
-      label.radio-inline(for='duration-3hours') 
-          input(type='radio', name='duration', id='duration-3hours', value=3*60*60*1000)
-          | 3 hours
+      each duration in challengeDurations
+        label.radio-inline(for='duration-' + duration.text.replace(' ', '').toLowerCase())
+            input(type='radio', name='duration', id='duration-' + duration.text.replace(' ', '').toLowerCase(), value=duration.time)
+            | #{duration.text}
     .form-group
       label(for='nickname') Your name:
       input.form-control(type='text', name='nickname', id='nickname')
