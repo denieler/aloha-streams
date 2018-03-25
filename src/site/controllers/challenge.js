@@ -51,7 +51,7 @@ exports.putNewChallenge = async (req, res, next) => {
     const configuration = await UserChallengeSetting.getSettings({
       streamerId
     })
-    const fee = configuration.fee
+    const fee = configuration ? configuration.fee : 1
 
     Challenge.add({
       name: req.body.name,
