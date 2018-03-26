@@ -25,14 +25,15 @@ block content
       input(type='hidden', name='fee', id='fee', value=fee)
       .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
         label
-          input(type='radio', name='paymentMethod', value='stripe', checked)
+          input(type='radio', name='paymentMethod', value='stripe', id='radio-stripe', checked)
           | Stripe
         div
           img(src='/images/logo-stripe.svg', style='width: 80px; height: 38px;')
       .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
         label
-          input(type='radio', name='paymentMethod', value='payPal')
+          input(type='radio', name='paymentMethod', value='payPal', id='radio-paypal')
           | PayPal
         div
           img(src='/images/logo-paypal.svg', style='width: 80px; height: 38px;')
-      button.btn.btn-primary(id='submit-payment') Submit challenge
+      button.btn.btn-primary(id='stripe-submit-payment', style='display: none;') Submit challenge
+      div(id='paypal-submit-payment', style='display: none;')

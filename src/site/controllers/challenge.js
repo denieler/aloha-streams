@@ -143,6 +143,7 @@ exports.postNewChallengePayment = (req, res) => {
   const challengeId = req.params.challengeId
   const tokenId = req.body.tokenId
   const paymentMehtod = req.body.paymentMehtod
+  const status = req.body.status
 
   const errors = req.validationErrors()
 
@@ -154,7 +155,9 @@ exports.postNewChallengePayment = (req, res) => {
   Challenge.changeStatus({
     challengeId,
     status: CHALLENGE_STATUS.NEW,
-    reason: `${paymentMehtod} - ${tokenId}`,
+    reason: status
+      ? `${paymentMehtod} - ${tokenId} - ${status}`
+      : `${paymentMehtod} - ${tokenId}`,
     callback: (err) => {
       res.json({
         error: err
