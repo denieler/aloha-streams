@@ -5,6 +5,6 @@ const challengeStatusSchema = new mongoose.Schema({
   reason: String
 }, { timestamps: true })
 
-const ChallengeStatus = mongoose.model('Challenge_Status', challengeStatusSchema);
+const ChallengeStatus = mongoose.model('Challenge_Status', challengeStatusSchema)
 
 module.exports = ChallengeStatus

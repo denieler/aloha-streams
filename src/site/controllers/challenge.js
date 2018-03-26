@@ -1,8 +1,7 @@
 const Challenge = require('../models/Challenge')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
 const CHALLENGE_STATUS = require('../constants/challengeStatus')
-const {DEFAULT_FEE} = require('../constants/challengeConfiguration')
-const User = require('../models/User')
+const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const utils = require('../utils/durationFormatter')
 
 /**
@@ -18,10 +17,10 @@ exports.getNewChallenge = async (req, res) => {
   const fee = configuration ? configuration.fee : DEFAULT_FEE
 
   const challengeDurations = [
-    { text: '5 minutes', time: 5*60*1000 },
-    { text: '10 minutes', time: 10*60*1000 },
-    { text: '1 hour', time: 1*60*60*1000 },
-    { text: '3 hours', time: 3*60*60*1000 }
+    { text: '5 minutes', time: 5 * 60 * 1000 },
+    { text: '10 minutes', time: 10 * 60 * 1000 },
+    { text: '1 hour', time: 1 * 60 * 60 * 1000 },
+    { text: '3 hours', time: 3 * 60 * 60 * 1000 }
   ]
 
   res.render('challenges/new', {
@@ -82,7 +81,6 @@ exports.putNewChallenge = async (req, res, next) => {
   }
 }
 
-
 /**
  * GET /challenges/mine
  * Page of Challenges of the streamer
@@ -101,15 +99,15 @@ exports.getMyStreamerChallenges = (req, res) => {
     .populate('currentChallengeStatus')
 
   streamerChallengesQuery
-  .then(challenges => {
-    const onlyPaidChallenges = challenges.filter(challenge => {
-      return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
+    .then(challenges => {
+      const onlyPaidChallenges = challenges.filter(challenge => {
+        return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
+      })
+      res.render('challenges/mine', {
+        title: 'Challenges',
+        challenges: onlyPaidChallenges
+      })
     })
-    res.render('challenges/mine', {
-      title: 'Challenges',
-      challenges: onlyPaidChallenges
-    })
-  })
 }
 
 /**
@@ -118,13 +116,12 @@ exports.getMyStreamerChallenges = (req, res) => {
  */
 exports.getNewChallengePaymentOptions = async (req, res) => {
   const challengeId = req.params.challengeId
-  const challenge = await Challenge.get({challengeId})
+  const challenge = await Challenge.get({ challengeId })
 
   if (!challenge) {
     throw new Error('Challenge has not been found. Please contact our support.')
   }
 
-  console.log(challengeId._id)
   res.render('challenges/payment-options', {
     name: challenge.name,
     description: challenge.description,
@@ -142,10 +139,11 @@ exports.getNewChallengePaymentOptions = async (req, res) => {
 exports.postNewChallengePayment = (req, res) => {
   req.assert('tokenId', 'Token id can not be empty').notEmpty()
   req.assert('paymentMehtod', 'Payment Method Name can not be empty').notEmpty()
-  
+
   const challengeId = req.params.challengeId
   const tokenId = req.body.tokenId
   const paymentMehtod = req.body.paymentMehtod
+  const status = req.body.status
 
   const errors = req.validationErrors()
 
@@ -157,7 +155,9 @@ exports.postNewChallengePayment = (req, res) => {
   Challenge.changeStatus({
     challengeId,
     status: CHALLENGE_STATUS.NEW,
-    reason: `${paymentMehtod} - ${tokenId}`,
+    reason: status
+      ? `${paymentMehtod} - ${tokenId} - ${status}`
+      : `${paymentMehtod} - ${tokenId}`,
     callback: (err) => {
       res.json({
         error: err

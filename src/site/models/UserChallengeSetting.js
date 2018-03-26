@@ -5,9 +5,9 @@ const userChallengeSettingSchema = new mongoose.Schema({
   fee: Number
 }, { timestamps: true })
 
-const UserChallengeSetting = mongoose.model('User_Challenge_Setting', userChallengeSettingSchema);
+const UserChallengeSetting = mongoose.model('User_Challenge_Setting', userChallengeSettingSchema)
 
-UserChallengeSetting.updateSettings = ({streamerId, fee, callback}) => {
+UserChallengeSetting.updateSettings = ({ streamerId, fee, callback }) => {
   const query = {}
   const update = {
     user: streamerId,
@@ -17,12 +17,12 @@ UserChallengeSetting.updateSettings = ({streamerId, fee, callback}) => {
     upsert: true,
     setDefaultsOnInsert: true
   }
-  
+
   UserChallengeSetting
     .findOneAndUpdate(query, update, options, callback)
 }
 
-UserChallengeSetting.getSettings = ({streamerId}) => {
+UserChallengeSetting.getSettings = ({ streamerId }) => {
   return UserChallengeSetting.findOne({
     user: streamerId
   }).exec()
