@@ -13,7 +13,8 @@
     "XMLHttpRequest": true,
     "expect": true,
     "Element": true,
-    "jest": true
+    "jest": true,
+    "fetch": true
   },
   "rules": {
     "object-curly-spacing": ["error", "always"],

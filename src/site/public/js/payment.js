@@ -1,9 +1,10 @@
+/* global StripeCheckout */
 document.addEventListener('DOMContentLoaded', function () {
   var handler = StripeCheckout.configure({
     key: 'pk_test_srw0eAkx9YROpz8MwVL8cu3n',
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
-    token: function(token) {
+    token: function (token) {
       const _csrf = document.getElementById('_csrf').value
       const challengeId = document.getElementById('challengeId').value
       const tokenId = token.id
@@ -22,17 +23,18 @@ document.addEventListener('DOMContentLoaded', function () {
         method: 'POST',
         credentials: 'same-origin'
       })
-      .then(response => response.json())
-      .then(result => {
-        if (result.error)
-          throw new Error('Something goes wrong during the payment. Please ask our support for the help.')
-  
-        window.location.href = '/challenges/success'
-      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.error) {
+            throw new Error('Something goes wrong during the payment. Please ask our support for the help.')
+          }
+
+          window.location.href = '/challenges/success'
+        })
     }
   })
 
-  document.getElementById('submit-payment').addEventListener('click', function(e) {
+  document.getElementById('submit-payment').addEventListener('click', function (e) {
     var price = document.getElementById('price').value
     var fee = document.getElementById('fee').value
 
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   // Close Checkout on page navigation:
-  window.addEventListener('popstate', function() {
+  window.addEventListener('popstate', function () {
     handler.close()
   })
 })
