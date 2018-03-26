@@ -24,6 +24,6 @@ const viewerSchema = new mongoose.Schema({
   }
 }, { timestamps: true })
 
-const Viewer = mongoose.model('Viewer', viewerSchema);
+const Viewer = mongoose.model('Viewer', viewerSchema)
 
 module.exports = Viewer

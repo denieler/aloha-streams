@@ -17,8 +17,8 @@ const challengeSchema = new mongoose.Schema({
   viewer: { type: mongoose.Schema.Types.ObjectId, ref: 'Viewer' },
   streamer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true })
-  
-const Challenge = mongoose.model('Challenge', challengeSchema);
+
+const Challenge = mongoose.model('Challenge', challengeSchema)
 
 Challenge.add = ({
   name,
@@ -37,7 +37,7 @@ Challenge.add = ({
     fee,
     duration
   })
-  
+
   // add challenge status
   const newChallengeStatusId = mongoose.Types.ObjectId()
   const newChallengeStatus = new ChallengeStatus({
@@ -75,9 +75,8 @@ Challenge.changeStatus = ({ challengeId, status, reason, callback }) => {
   })
   challengeStatus.save()
 
-
   Challenge.update(
-    {_id: challengeId},
+    { _id: challengeId },
     {
       $push: { challengeStatuses: challengeStatus },
       currentChallengeStatus: challengeStatusId
@@ -94,4 +93,4 @@ Challenge.get = ({
   }).exec()
 }
 
-module.exports = Challenge;
+module.exports = Challenge
