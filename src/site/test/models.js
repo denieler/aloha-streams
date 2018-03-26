@@ -78,7 +78,7 @@ describe('User Model', () => {
     User.findOne({ email: 'test@gmail.com' }, (err, result) => {
       userMock.verify()
       userMock.restore()
-      expect(err).to.null()
+      expect(err).to.be.null
       expect(result.email).to.equal('test@gmail.com')
       done()
     })
