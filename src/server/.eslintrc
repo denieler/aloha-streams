@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "extends": ["standard"],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "plugins": [
+    "chai-friendly"
+  ],
+  "globals": {
+    "FileReader": true,
+    "XMLHttpRequest": true,
+    "expect": true,
+    "Element": true,
+    "jest": true,
+    "fetch": true
+  },
+  "rules": {
+    "object-curly-spacing": ["error", "always"],
+    "no-console": [1, { "allow": ["warn", "error", "info"] }],
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }]
+  }
+}
