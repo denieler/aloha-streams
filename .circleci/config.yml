@@ -13,23 +13,22 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: cd ./src/site
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-{{ checksum "./src/site/yarn.lock" }}
             - yarn-packages-{{ .Branch }}
             - yarn-packages-master
             - yarn-packages-
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: cd ./src/site && yarn install
       - run:
           name: Run site tests
           command: yarn test
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Branch }}-{{ checksum "./src/site/yarn.lock" }}
           paths:
             - node_modules/
   deploy:
