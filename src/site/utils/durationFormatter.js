@@ -27,27 +27,4 @@ exports.formatDuration = duration => {
   }
 
   return result.join(' ')
-  // let sec = duration / 1000
-
-  // if (sec <= 60) {
-  //   return sec + ' sec.'
-  // }
-
-  // let minutes = Math.trunc(sec / 60)
-  // sec = duration / 1000 - minutes * 60
-  // if (minutes <= 60) {
-  //   if (sec > 0) {
-  //     return minutes + ' min. ' + sec + ' sec.'
-  //   } else {
-  //     return minutes + ' min.'
-  //   }
-  // }
-
-  // let hours = Math.trunc(minutes / 60)
-  // minutes = Math.trunc(minutes - hours * 60)
-  // if (minutes > 0) {
-  //   return hours + ' h. ' + minutes + ' min.'
-  // }
-
-  // return hours + ' h.'
 }
