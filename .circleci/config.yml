@@ -13,6 +13,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: cd ./src/site
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -20,7 +21,6 @@ jobs:
             - yarn-packages-{{ .Branch }}
             - yarn-packages-master
             - yarn-packages-
-      - cd ./src/site
       - run:
           name: Install Dependencies
           command: yarn install
