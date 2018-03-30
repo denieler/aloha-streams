@@ -59,7 +59,7 @@ jobs:
           command: ./deploy-to-aws.sh
 workflows:
   version: 2
-  build-and-deploy:
+  test-and-deploy:
     jobs:
       - test
       - deploy
