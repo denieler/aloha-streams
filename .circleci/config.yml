@@ -9,8 +9,8 @@ defaults: &defaults
 
 version: 2
 jobs:
-  <<: *defaults
   test:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -63,7 +63,7 @@ jobs:
 
 workflows:
   version: 2
-  test-and-deploy:
+  test_and_deploy:
     jobs:
       - test
       - deploy
