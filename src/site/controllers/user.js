@@ -5,6 +5,7 @@ const passport = require('passport')
 const User = require('../models/User')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
+const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
 
 /**
  * GET /login
@@ -401,8 +402,7 @@ exports.getChallengesConfiguration = async (req, res, next) => {
     next(error)
   }
 
-  const shareLink = req.protocol +
-    '://' + req.get('host') +
+  const shareLink = getFullUrlFromRequest(req) +
     '/challenges/new/' + req.user.id
 
   res.render('account/challenges', {
@@ -437,5 +437,18 @@ exports.postChallengesConfiguration = (req, res, next) => {
       }
       res.redirect('/account/challenges')
     }
+  })
+}
+
+/**
+ * GET /account/widgets
+ * Widgets configuration account page
+ */
+exports.getWidgetsConfiguration = (req, res, next) => {
+  const challengeListWidgetLink = getFullUrlFromRequest(req) +
+    '/widget/challenge-list/' + req.user.id
+
+  res.render('account/widgets', {
+    challengeListWidgetLink
   })
 }
