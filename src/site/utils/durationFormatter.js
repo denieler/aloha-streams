@@ -1,20 +1,30 @@
 exports.formatDuration = duration => {
-  let sec = duration / 1000
+  let result = []
+  let ms = duration
 
-  if (sec <= 60) {
-    return sec + ' sec.'
+  const days = Math.trunc(ms / (1000 * 60 * 60 * 24))
+  if (days > 0) {
+    result.push(days + ' d.')
+    ms -= days * 1000 * 60 * 60 * 24
   }
 
-  let minutes = sec / 60
-  if (minutes <= 60) {
-    return minutes + ' min.'
+  const hours = Math.trunc(ms / (1000 * 60 * 60))
+  if (hours > 0) {
+    result.push(hours + ' h.')
+    ms -= hours * 1000 * 60 * 60
   }
 
-  let hours = minutes / 60
-  minutes = duration / 1000 - hours * 60
+  const minutes = Math.trunc(ms / (1000 * 60))
   if (minutes > 0) {
-    return hours + ' h. ' + minutes + ' min.'
+    result.push(minutes + ' min.')
+    ms -= minutes * 1000 * 60
   }
 
-  return hours + ' h.'
+  const seconds = Math.trunc(ms / (1000))
+  if (seconds > 0) {
+    result.push(seconds + ' sec.')
+    ms -= seconds * 1000
+  }
+
+  return result.join(' ')
 }

@@ -2,14 +2,37 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:8.9-stretch-browsers
+
 version: 2
 jobs:
-  build:
-    branches:
-      only:
-        - master
-    docker:
-      - image: circleci/node:8.9-stretch-browsers
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "./src/site/yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run:
+          name: Install Dependencies
+          command: cd ./src/site && yarn install
+      - run:
+          name: Run site tests
+          command: cd ./src/site && yarn test
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ .Branch }}-{{ checksum "./src/site/yarn.lock" }}
+          paths:
+            - node_modules/
+  deploy:
+    <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
@@ -38,3 +61,15 @@ jobs:
       - run:
           name: Deploy
           command: ./deploy-to-aws.sh
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
