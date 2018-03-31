@@ -9,6 +9,9 @@ block content
 
     div(style='margin: 15px 0;')
       p Widget shows the list of active challenges in your account.
+
+      img(src='/images/widget/challenge-list-widget-example.png', style='height: 350px; margin: 15px 0;')
+
       p Use this link as a Browser Source in your OBS application or other streaming app that you are using:
 
       .input-group
@@ -16,6 +19,21 @@ block content
         .input-group-btn
           button.btn.btn-default(data-clipboard-target="#challenge-list-widget-link")
             i.fa.fa-copy
+      
+      div(style='margin-top: 10px;')
+        p If you are using OBS, setup the next parameters:
+        div
+          strong(style='width: 60px; display: inline-block;') Width:
+          |  390px
+        div
+          strong(style='width: 60px; display: inline-block;') Height:
+          |  210px
+        div
+          strong(style='width: 60px; display: inline-block;') FPS:
+          |  60
+        div
+          strong(style='width: 60px; display: inline-block;') CSS:
+          |  remove everything and leave empty
 
-  div
-    legend New Challenge notifier
+  //- div
+  //-   legend New Challenge notifier
