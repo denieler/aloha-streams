@@ -93,4 +93,15 @@ Challenge.get = ({
   }).exec()
 }
 
+Challenge.getAllForStreamer = ({ streamerId }) => {
+  return Challenge
+    .find({
+      streamer: streamerId
+    })
+    .limit(10)
+    .sort({ createdAt: -1 })
+    .populate('currentChallengeStatus')
+    .exec()
+}
+
 module.exports = Challenge

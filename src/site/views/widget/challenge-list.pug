@@ -6,4 +6,20 @@ block content
     h3 Challenges
 
   div
-    | hello
+    legend In Progress
+
+    if acceptedChallenges && acceptedChallenges.length
+      each challenge in acceptedChallenges
+        div(style='font-size: 16px;') #{challenge.name}
+        div(style='display: flex; justify-content: space-between;')
+          div
+            h3.panel-title(style='padding-bottom: 10px;') Reward: 
+              span(style='font-size: 24px;') $#{challenge.price} 
+            h4.panel-title Time: #{formatDuration(challenge.duration)}
+
+    if !acceptedChallenges || !acceptedChallenges.length
+      div(style='text-align: center;') There are no challenges yet. Yours can be the first one!    
+
+  if doneChallenges && doneChallenges.length
+    div
+      legend Done
