@@ -24,7 +24,8 @@ block content
                 div $#{challenge.price} 
 
     if !acceptedChallenges || !acceptedChallenges.length
-      div(style='text-align: center;') There are no challenges yet. Yours can be the first one!    
+      .challenge-list__no-challenges-text There are no challenges yet.
+      .challenge-list__no-challenges-text Yours can be the first one! Enjoy!
 
     if doneChallenges && doneChallenges.length
       div
