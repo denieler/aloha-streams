@@ -54,6 +54,10 @@ html, body {
   margin: 0 0 12px 0;
 }
 
+.--done {
+  text-decoration: line-through;
+}
+
 .details {
   font-size: 8px;
   margin: 8px 0 0 .8rem;
@@ -72,3 +76,8 @@ html, body {
   margin-top: 1.6rem;
   text-align: center;
 }
+
+.--hidden {
+  display: none;
+}
+

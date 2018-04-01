@@ -10,23 +10,32 @@ block content
       div In Progress
       .w-challege-list__status-header_line
 
-    if acceptedChallenges && acceptedChallenges.length
-      .challenge-list
-        each challenge in acceptedChallenges
-          .challenge
-            div - #{challenge.name}
-            .details
-              .details__line
-                .details__line__name Time left:
-                div #{formatDuration(challenge.duration)}
-              .details__line
-                .details__line__name Price:
-                div $#{challenge.price} 
+    #challenge-list-accepted.--hidden
+      each challenge in acceptedChallenges
+        .challenge
+          div - #{challenge.name}
+          .details
+            .details__line
+              .details__line__name Time left:
+              div #{formatDuration(challenge.duration)}
+            .details__line
+              .details__line__name Price:
+              div $#{challenge.price}
 
-    if !acceptedChallenges || !acceptedChallenges.length
-      .challenge-list__no-challenges-text There are no challenges yet.
-      .challenge-list__no-challenges-text Yours can be the first one! Enjoy!
+    #challenge-list-done.--hidden
+      each challenge in doneChallenges
+        .challenge.--done
+          div - #{challenge.name}
+          .details
+            .details__line
+              .details__line__name Time left:
+              div #{formatDuration(challenge.duration)}
+            .details__line
+              .details__line__name Price:
+              div $#{challenge.price}
 
-    if doneChallenges && doneChallenges.length
-      div
-        legend Done
+    #challenge-list-diplay.challenge-list
+
+    #challenge-list-no-challenges
+        .challenge-list__no-challenges-text There are no challenges yet.
+        .challenge-list__no-challenges-text Yours can be the first one! Enjoy!
