@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const doneHeaderNode = document.getElementById('done-header')
 
   const numberOfDisplayedChallenges = 3
-  const secondsDelayBetweenAnimations = 4
-  // const animationDelay = 0.5
+  const animationDelay = 0.4
+  const secondsDelayBetweenAnimations = 4 + animationDelay
 
   const acceptedChallenges = challengeListAccepted.getElementsByClassName('challenge')
   const doneChallenges = challengeListDone.getElementsByClassName('challenge')
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     node.classList.remove('--fade-in')
 
     return new Promise(resolve => {
-      setTimeout(resolve, 400)
+      setTimeout(resolve, animationDelay * 1000)
     })
   }
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     node.classList.remove('--fade-out')
 
     return new Promise(resolve => {
-      setTimeout(resolve, 400)
+      setTimeout(resolve, animationDelay * 1000)
     })
   }
 
