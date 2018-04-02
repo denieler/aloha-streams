@@ -3,6 +3,10 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   font-size: 10px;
+  text-rendering: optimizeLegibility;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 .w-challege-list {
