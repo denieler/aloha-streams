@@ -6,6 +6,7 @@ const User = require('../models/User')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
+const PAYMENT_STATUS = require('../constants/paymentStatus')
 
 /**
  * GET /login
@@ -458,9 +459,17 @@ exports.getWidgetsConfiguration = (req, res, next) => {
  * Streamer's payments page
  */
 exports.getPayments = (req, res, next) => {
+  const PAYMENT_STATUS_MAP = {
+    [PAYMENT_STATUS.ON_HOLD]: 'On Hold',
+    [PAYMENT_STATUS.RETURNED_TO_VIEWER]: 'Returned to the viewer',
+    [PAYMENT_STATUS.ON_VERIFICATION]: 'On Verification',
+    [PAYMENT_STATUS.PAID_TO_STREAMER]: 'Paid'
+  }
+
   res.render('account/payments', {
     payments: [],
     totalPaid: null,
-    totalOnVerification: null
+    totalOnVerification: null,
+    PAYMENT_STATUS: PAYMENT_STATUS_MAP
   })
 }
