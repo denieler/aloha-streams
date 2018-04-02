@@ -61,28 +61,28 @@ Challenge.add = ({
 
   challenge.streamer = streamerId
 
-  challenge.save((err, challenge) => {
-    callback(err, challenge._id)
-  })
+  return challenge.save()
 }
 
-Challenge.changeStatus = ({ challengeId, status, reason, callback }) => {
+Challenge.changeStatus = ({ challengeId, status, reason, payment, callback }) => {
   const challengeStatusId = mongoose.Types.ObjectId()
   const challengeStatus = new ChallengeStatus({
     _id: challengeStatusId,
     status,
-    reason: null
+    reason,
+    payment
   })
   challengeStatus.save()
 
-  Challenge.update(
-    { _id: challengeId },
-    {
-      $push: { challengeStatuses: challengeStatus },
-      currentChallengeStatus: challengeStatusId
-    },
-    callback
-  )
+  return Challenge
+    .update(
+      { _id: challengeId },
+      {
+        $push: { challengeStatuses: challengeStatus },
+        currentChallengeStatus: challengeStatusId
+      }
+    )
+    .exec()
 }
 
 Challenge.get = ({

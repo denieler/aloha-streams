@@ -4,8 +4,10 @@ const nodemailer = require('nodemailer')
 const passport = require('passport')
 const User = require('../models/User')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
+const Payment = require('../models/Payment')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
+const PAYMENT_STATUS = require('../constants/paymentStatus')
 
 /**
  * GET /login
@@ -450,5 +452,48 @@ exports.getWidgetsConfiguration = (req, res, next) => {
 
   res.render('account/widgets', {
     challengeListWidgetLink
+  })
+}
+
+/**
+ * GET /account/payments
+ * Streamer's payments page
+ */
+exports.getPayments = async (req, res, next) => {
+  const PAYMENT_STATUS_MAP = {
+    [PAYMENT_STATUS.ON_HOLD]: 'On Hold',
+    [PAYMENT_STATUS.RETURNED_TO_VIEWER]: 'Returned to the viewer',
+    [PAYMENT_STATUS.ON_VERIFICATION]: 'On Verification',
+    [PAYMENT_STATUS.PAID_TO_STREAMER]: 'Paid'
+  }
+
+  const payments = await Payment.getAllForStreamer({ streamerId: req.user.id })
+  const displayPayments = payments.map(payment => {
+    return {
+      id: payment._id,
+      challengeName: payment.challenge.name,
+      reward: payment.challenge.price,
+      fee: payment.challenge.fee,
+      status: PAYMENT_STATUS_MAP[payment.status]
+    }
+  })
+
+  const totalPaid = payments
+    .filter(payment => payment.status === PAYMENT_STATUS.PAID_TO_STREAMER)
+    .reduce((acc, payment) => {
+      return acc + payment.challenge.price + payment.challenge.fee
+    }, 0)
+
+  const totalOnVerification = payments
+    .filter(payment => payment.status === PAYMENT_STATUS.ON_VERIFICATION)
+    .reduce((acc, payment) => {
+      return acc + payment.challenge.price + payment.challenge.fee
+    }, 0)
+
+  res.render('account/payments', {
+    payments: displayPayments,
+    totalPaid,
+    totalOnVerification,
+    PAYMENT_STATUS: PAYMENT_STATUS_MAP
   })
 }

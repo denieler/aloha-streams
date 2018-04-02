@@ -1,0 +1,43 @@
+.payments {
+  color: #4A4A4A;
+}
+
+.payments__header {
+  margin-bottom: 2rem;
+}
+
+.payments__header__column {
+  font-weight: bold;
+}
+
+.payments__column {
+  margin: 2rem 0;
+}
+
+.payments__column__id {
+  font-size: 1rem;
+}
+
+.center-stub-phrase {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.totals {
+  display: flex;
+  margin-top: 3rem;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.totals__amount {
+  display: flex;
+  justify-content: space-between;
+  width: 25rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.totals__amount__title {
+  width: 17rem;
+}

@@ -1,7 +1,9 @@
 const Challenge = require('../models/Challenge')
 const UserChallengeSetting = require('../models/UserChallengeSetting')
+const Payment = require('../models/Payment')
 const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
+const PAYMENT_STATUS = require('../constants/paymentStatus')
 const utils = require('../utils/durationFormatter')
 
 /**
@@ -61,21 +63,17 @@ exports.putNewChallenge = async (req, res, next) => {
       streamerId
     })
     const fee = configuration ? configuration.fee : DEFAULT_FEE
-
-    Challenge.add({
+    const challenge = await Challenge.add({
       name: req.body.name,
       description: req.body.description,
       price: req.body.reward,
       fee,
       duration: req.body.duration,
       nickname: req.body.nickname,
-      streamerId,
-      callback: (err, challengeId) => {
-        if (err) { return next(err) }
-
-        return res.redirect(`/challenge/${challengeId}/payment`)
-      }
+      streamerId
     })
+
+    return res.redirect(`/challenge/${challenge._id}/payment`)
   } catch (err) {
     next(err)
   }
@@ -128,14 +126,14 @@ exports.getNewChallengePaymentOptions = async (req, res) => {
  * POST /challenge/:challengeId/payment
  * Challenge has been successfully paid
  */
-exports.postNewChallengePayment = (req, res) => {
+exports.postNewChallengePayment = async (req, res) => {
   req.assert('tokenId', 'Token id can not be empty').notEmpty()
   req.assert('paymentMehtod', 'Payment Method Name can not be empty').notEmpty()
 
   const challengeId = req.params.challengeId
   const tokenId = req.body.tokenId
   const paymentMehtod = req.body.paymentMehtod
-  const status = req.body.status
+  // const platformStatus = req.body.status
 
   const errors = req.validationErrors()
 
@@ -144,70 +142,95 @@ exports.postNewChallengePayment = (req, res) => {
     return res.redirect(`/challenge/${challengeId}/payment`)
   }
 
-  Challenge.changeStatus({
-    challengeId,
-    status: CHALLENGE_STATUS.NEW,
-    reason: status
-      ? `${paymentMehtod} - ${tokenId} - ${status}`
-      : `${paymentMehtod} - ${tokenId}`,
-    callback: (err) => {
-      res.json({
-        error: err
-      })
-    }
-  })
+  try {
+    const challenge = await Challenge.get({ challengeId })
+    const streamerId = challenge.streamer
+    const payment = await Payment.add({
+      challengeId,
+      streamerId,
+      tokenId,
+      paymentMehtod,
+      status: PAYMENT_STATUS.ON_HOLD
+    })
+
+    await Challenge.changeStatus({
+      challengeId,
+      status: CHALLENGE_STATUS.NEW,
+      payment: payment._id
+    })
+
+    res.json({})
+  } catch (err) {
+    res.json({
+      error: err
+    })
+  }
 }
 
 /**
  * POST /challenge/accept
  * Accept challenge
  */
-exports.postAcceptChallenge = (req, res) => {
+exports.postAcceptChallenge = async (req, res) => {
   const challengeId = req.body.challengeId
 
-  Challenge.changeStatus({
-    challengeId,
-    status: CHALLENGE_STATUS.ACCEPTED,
-    callback: (err) => {
-      res.json({
-        error: err
-      })
-    }
-  })
+  try {
+    await Challenge.changeStatus({
+      challengeId,
+      status: CHALLENGE_STATUS.ACCEPTED
+    })
+    res.json({})
+  } catch (err) {
+    res.json({
+      error: err
+    })
+  }
 }
 
 /**
  * POST /challenge/reject
  * Reject challenge
  */
-exports.postRejectChallenge = (req, res) => {
+exports.postRejectChallenge = async (req, res) => {
   const challengeId = req.body.challengeId
 
-  Challenge.changeStatus({
-    challengeId,
-    status: CHALLENGE_STATUS.REJECTED,
-    callback: (err) => {
-      res.json({
-        error: err
-      })
-    }
-  })
+  try {
+    await Challenge.changeStatus({
+      challengeId,
+      status: CHALLENGE_STATUS.REJECTED
+    })
+    Payment.changeStatusByChallengeId({
+      challengeId,
+      status: PAYMENT_STATUS.RETURNED_TO_VIEWER
+    })
+    res.json({})
+  } catch (err) {
+    res.json({
+      error: err
+    })
+  }
 }
 
 /**
  * POST /challenge/done
  * Mark challenge as done
  */
-exports.postDoneChallenge = (req, res) => {
+exports.postDoneChallenge = async (req, res) => {
   const challengeId = req.body.challengeId
 
-  Challenge.changeStatus({
-    challengeId,
-    status: CHALLENGE_STATUS.DONE,
-    callback: (err) => {
-      res.json({
-        error: err
-      })
-    }
-  })
+  try {
+    await Challenge.changeStatus({
+      challengeId,
+      status: CHALLENGE_STATUS.DONE
+    })
+    Payment.changeStatusByChallengeId({
+      challengeId,
+      status: PAYMENT_STATUS.ON_VERIFICATION
+    })
+    res.json({})
+  } catch (err) {
+    res.json({
+      error: err
+    })
+  }
 }
