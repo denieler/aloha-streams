@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const challengeListAccepted = document.getElementById('challenge-list-accepted')
   const challengeListDone = document.getElementById('challenge-list-done')
   const challengeListNoChallenges = document.getElementById('challenge-list-no-challenges')
+  const inProgressHeaderNode = document.getElementById('in-progress-header')
+  const doneHeaderNode = document.getElementById('done-header')
 
   const numberOfDisplayedChallenges = 3
   const secondsDelayBetweenAnimations = 4
@@ -11,8 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const acceptedChallenges = challengeListAccepted.getElementsByClassName('challenge')
   const doneChallenges = challengeListDone.getElementsByClassName('challenge')
 
-  const reloadPageTime =
-    (acceptedChallenges.length + doneChallenges.length) % numberOfDisplayedChallenges === 0
+  const reloadPageTime = calculateFullPageReloadTime(acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations)
+
+  function calculateFullPageReloadTime (acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations) {
+    return (acceptedChallenges.length + doneChallenges.length) % numberOfDisplayedChallenges === 0
       ? (
         Math.trunc(acceptedChallenges.length / numberOfDisplayedChallenges) +
         Math.trunc(doneChallenges.length / numberOfDisplayedChallenges)
@@ -22,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
         Math.trunc(doneChallenges.length / numberOfDisplayedChallenges) +
         1
       ) * secondsDelayBetweenAnimations * 1000
+  }
 
-  function showChallenges (challenges, index) {
+  function showChallengesInDisplayList (challengeListDisplay, challenges, index, numberOfDisplayedChallenges, challengeListNoChallenges) {
     if (challenges.length) {
       const sliceOfChallenges = Array.prototype.slice.call(challenges, index, index + numberOfDisplayedChallenges)
       sliceOfChallenges.map(challenge => {
@@ -42,21 +47,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   let challengeType = CHALLENGE_TYPES.ACCEPTED
 
-  function showInProgressHeader () {
-
+  function showHeader (headerNode) {
+    headerNode.classList.remove('--hidden')
   }
 
-  function showDoneHeader () {
-
+  function hideHeader (headerNode) {
+    headerNode.classList.add('--hidden')
   }
 
   function showNextChallenges () {
     if (challengeType === CHALLENGE_TYPES.ACCEPTED) {
-      showInProgressHeader()
-      showChallenges(acceptedChallenges, currentChallengeIndex)
+      hideHeader(doneHeaderNode)
+      showHeader(inProgressHeaderNode)
+      showChallengesInDisplayList(challengeListDisplay, acceptedChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
     } else if (challengeType === CHALLENGE_TYPES.DONE) {
-      showDoneHeader()
-      showChallenges(doneChallenges, currentChallengeIndex)
+      hideHeader(inProgressHeaderNode)
+      showHeader(doneHeaderNode)
+      showChallengesInDisplayList(challengeListDisplay, doneChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
     }
 
     currentChallengeIndex += numberOfDisplayedChallenges
@@ -72,8 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }, secondsDelayBetweenAnimations * 1000)
   showNextChallenges()
 
-  console.log('Reload time:', reloadPageTime / 1000)
   setTimeout(function () {
     window.location.reload()
-  }, reloadPageTime - 300)
+  }, reloadPageTime - 200)
 })

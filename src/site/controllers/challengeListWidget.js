@@ -14,13 +14,13 @@ exports.getChallengeListWidget = async (req, res) => {
   const acceptedChallenges = challenges.filter(challenge =>
     challenge.currentChallengeStatus.status === CHALLENGE_STATUS.ACCEPTED
   )
-  const doneChallenges = challenges.filter(challenge =>
+  const lastDoneChallenges = challenges.filter(challenge =>
     challenge.currentChallengeStatus.status === CHALLENGE_STATUS.DONE
   ).slice(0, DONE_CHALLENGES_AMOUNT)
 
   res.render('widget/challenge-list', {
     acceptedChallenges,
-    doneChallenges,
+    lastDoneChallenges,
     formatDuration
   })
 }
