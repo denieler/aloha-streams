@@ -85,29 +85,21 @@ exports.putNewChallenge = async (req, res, next) => {
  * GET /challenges/mine
  * Page of Challenges of the streamer
  */
-exports.getMyStreamerChallenges = (req, res) => {
+exports.getMyStreamerChallenges = async (req, res) => {
   if (!req.user) {
     return res.redirect('/')
   }
 
-  const streamerChallengesQuery = Challenge
-    .find({
-      streamer: req.user.id
-    })
-    .limit(10)
-    .sort({ createdAt: -1 })
-    .populate('currentChallengeStatus')
+  const challenges = await Challenge.getAllForStreamer({ streamerId: req.user.id })
+  const onlyPaidChallenges = challenges.filter(challenge => {
+    return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
+  })
 
-  streamerChallengesQuery
-    .then(challenges => {
-      const onlyPaidChallenges = challenges.filter(challenge => {
-        return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
-      })
-      res.render('challenges/mine', {
-        title: 'Challenges',
-        challenges: onlyPaidChallenges
-      })
-    })
+  res.render('challenges/mine', {
+    title: 'Challenges',
+    challenges: onlyPaidChallenges,
+    formatDuration: utils.formatDuration
+  })
 }
 
 /**

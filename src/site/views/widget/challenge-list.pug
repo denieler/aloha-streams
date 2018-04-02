@@ -1,0 +1,45 @@
+extends ./widget-layout
+
+block content
+  script(src='/js/widget/challenge-list.js')
+
+  .w-challege-list.--transparent-bg
+    .w-challege-list__project-name Challenges
+
+    #in-progress-header
+      div In Progress
+      .w-challege-list__status-header_line
+
+    #done-header.--hidden
+      div Done
+      .w-challege-list__status-header_line
+
+    #challenge-list-accepted.--hidden
+      each challenge in acceptedChallenges
+        .challenge
+          .challenge__name - #{challenge.name}
+          .details
+            .details__line
+              .details__line__name Time left:
+              div #{formatDuration(challenge.duration)}
+            .details__line
+              .details__line__name Price:
+              div $#{challenge.price}
+
+    #challenge-list-done.--hidden
+      each challenge in doneChallenges
+        .challenge.--done
+          .challenge__name - #{challenge.name}
+          .details
+            .details__line
+              .details__line__name Time left:
+              div #{formatDuration(challenge.duration)}
+            .details__line
+              .details__line__name Price:
+              div $#{challenge.price}
+
+    #challenge-list-diplay.challenge-list
+
+    #challenge-list-no-challenges
+        .challenge-list__no-challenges-text There are no challenges yet.
+        .challenge-list__no-challenges-text Yours can be the first one! Enjoy!

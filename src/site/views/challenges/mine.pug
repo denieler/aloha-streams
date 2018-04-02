@@ -17,7 +17,7 @@ block content
               h3.panel-title(style='padding-bottom: 10px;') Reward: 
                 span(style='font-size: 24px;') $#{challenge.price} 
                 span + $#{challenge.fee} tips
-              h4.panel-title Time: #{challenge.duration / 1000 / 60} min.
+              h4.panel-title Time: #{formatDuration(challenge.duration)}
             if challenge.currentChallengeStatus.status === 'NEW' || challenge.currentChallengeStatus.status === 'REJECTED'
               div #{challenge.currentChallengeStatus.status}
           .panel-body

@@ -40,6 +40,7 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const challengeController = require('./controllers/challenge');
+const challengeListWidgetController = require('./controllers/challengeListWidget');
 
 /**
  * API keys and Passport configuration.
@@ -145,6 +146,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.get('/account/challenges', passportConfig.isAuthenticated, userController.getChallengesConfiguration)
 app.post('/account/challenges', passportConfig.isAuthenticated, userController.postChallengesConfiguration)
 
+app.get('/account/widgets', passportConfig.isAuthenticated, userController.getWidgetsConfiguration);
+
 app.get('/challenges/new/:streamerId', challengeController.getNewChallenge);
 app.post('/challenges/new/:streamerId', challengeController.putNewChallenge);
 app.get('/challenge/:challengeId/payment', challengeController.getNewChallengePaymentOptions);
@@ -155,6 +158,8 @@ app.get('/challenges/mine', passportConfig.isAuthenticated, challengeController.
 app.post('/challenge/accept', challengeController.postAcceptChallenge);
 app.post('/challenge/reject', challengeController.postRejectChallenge);
 app.post('/challenge/done', challengeController.postDoneChallenge);
+
+app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget);
 
 /**
  * API examples routes.

@@ -1,6 +1,9 @@
+/* global ClipboardJS */
+
 document.addEventListener('DOMContentLoaded', function () {
+  // eslint-disable-next-line
   new ClipboardJS('.btn')
-  
+
   // /challenges/mine
 
   const onChallengeAccepted = (e) => {
@@ -19,13 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
       method: 'POST',
       credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(result => {
-      if (result.error)
-        throw new Error('Can\'t accept challenge because something happened on server side')
+      .then(response => response.json())
+      .then(result => {
+        if (result.error) {
+          throw new Error('Can\'t accept challenge because something happened on server side')
+        }
 
-      window.location.reload()
-    })
+        window.location.reload()
+      })
   }
 
   const onChallengeRejected = (e) => {
@@ -44,13 +48,14 @@ document.addEventListener('DOMContentLoaded', function () {
       method: 'POST',
       credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(result => {
-      if (result.error)
-        throw new Error('Can\'t accept challenge because something happened on server side')
+      .then(response => response.json())
+      .then(result => {
+        if (result.error) {
+          throw new Error('Can\'t accept challenge because something happened on server side')
+        }
 
-      window.location.reload()
-    })
+        window.location.reload()
+      })
   }
 
   const onChallengeDone = (e) => {
@@ -69,13 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
       method: 'POST',
       credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(result => {
-      if (result.error)
-        throw new Error('Can\'t accept challenge because something happened on server side')
+      .then(response => response.json())
+      .then(result => {
+        if (result.error) {
+          throw new Error('Can\'t accept challenge because something happened on server side')
+        }
 
-      window.location.reload()
-    })
+        window.location.reload()
+      })
   }
 
   const acceptChallengeBtns = document.getElementsByClassName('accept-challenge')
@@ -92,5 +98,4 @@ document.addEventListener('DOMContentLoaded', function () {
   for (const doneChallengeBtn of doneChallengeBtns) {
     doneChallengeBtn.addEventListener('click', onChallengeDone)
   }
-
 })
