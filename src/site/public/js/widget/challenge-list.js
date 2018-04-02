@@ -73,6 +73,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function getUrlParamValue (paramName) {
+    if (!window.location.search) {
+      return null
+    }
+
+    const params = window.location.search.substring(1).split('&')
+
+    for (const param of params) {
+      const paramObject = param.split('=')
+      if (!paramObject[0]) {
+        continue
+      }
+
+      if (paramObject[0] === paramName) {
+        return paramObject[1] || true
+      }
+    }
+
+    return null
+  }
+
+  const removeLoopAnimation = getUrlParamValue('removeLoopAnimation')
+
+  if (removeLoopAnimation) {
+    challengeListDisplay.innerHTML = ''
+    showNextChallenges()
+    return
+  }
+
   setInterval(_ => {
     challengeListDisplay.innerHTML = ''
     showNextChallenges()
