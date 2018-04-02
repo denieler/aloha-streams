@@ -13,31 +13,33 @@ document.addEventListener('DOMContentLoaded', function () {
   const acceptedChallenges = challengeListAccepted.getElementsByClassName('challenge')
   const doneChallenges = challengeListDone.getElementsByClassName('challenge')
 
-  const reloadPageTime = calculateFullPageReloadTime(acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations)
+  const reloadPageTime = calculateFullPageReloadTime(acceptedChallenges.length, doneChallenges.length, numberOfDisplayedChallenges, secondsDelayBetweenAnimations)
 
-  function calculateFullPageReloadTime (acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations) {
-    const acceptedChallengesAmount = acceptedChallenges.length
-    const doneChallengesAmount = doneChallenges.length
+  function calculateFullPageReloadTime (acceptedChallengesLength, doneChallengesLength, numberOfDisplayedChallenges, secondsDelayBetweenAnimations) {
+    const acceptedChallengesAmount = acceptedChallengesLength
+    const doneChallengesAmount = doneChallengesLength
 
-    let reloadTime = (acceptedChallengesAmount + doneChallengesAmount) % numberOfDisplayedChallenges === 0
-      ? (
-        Math.trunc(acceptedChallengesAmount / numberOfDisplayedChallenges) +
-        Math.trunc(doneChallengesAmount / numberOfDisplayedChallenges)
-      ) * secondsDelayBetweenAnimations * 1000
-      : (
-        Math.trunc(acceptedChallengesAmount / numberOfDisplayedChallenges) +
-        Math.trunc(doneChallengesAmount / numberOfDisplayedChallenges) +
-        1
-      ) * secondsDelayBetweenAnimations * 1000
+    const acceptedChallengesAmountOfSeconds = acceptedChallengesAmount
+      ? Math.ceil(acceptedChallengesAmount / numberOfDisplayedChallenges)
+      : 1
 
-    if (!acceptedChallengesAmount && !doneChallengesAmount) {
-      reloadTime += 1 * secondsDelayBetweenAnimations * 1000
-    } else if (!acceptedChallengesAmount && doneChallengesAmount) {
-      reloadTime += 1 * secondsDelayBetweenAnimations * 1000
-    }
+    const doneChallengesAmountOfSeconds = doneChallengesAmount
+      ? Math.ceil(doneChallengesAmount / numberOfDisplayedChallenges)
+      : 0
+
+    const calculatedAmountOfSeconds = acceptedChallengesAmountOfSeconds + doneChallengesAmountOfSeconds
+
+    const reloadTime = calculatedAmountOfSeconds * secondsDelayBetweenAnimations * 1000
 
     return reloadTime
   }
+
+  // console tests :)
+  // console.log('None accepted and done', calculateFullPageReloadTime(0, 0, numberOfDisplayedChallenges, 1))
+  // console.log('1 accepted and none done', calculateFullPageReloadTime(1, 0, numberOfDisplayedChallenges, 1))
+  // console.log('None accepted and 1 done', calculateFullPageReloadTime(0, 1, numberOfDisplayedChallenges, 1))
+  // console.log('5 accepted and 1 done', calculateFullPageReloadTime(5, 1, numberOfDisplayedChallenges, 1))
+  // console.log('5 accepted and 4 done', calculateFullPageReloadTime(5, 4, numberOfDisplayedChallenges, 1))
 
   function showChallengesInDisplayList (challengeListDisplay, challenges, index, numberOfDisplayedChallenges, challengeListNoChallenges) {
     if (challenges.length) {
