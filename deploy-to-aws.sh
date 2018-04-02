@@ -11,5 +11,5 @@ ecs-cli configure --region $AWS_DEFAULT_REGION --cluster $AWS_ECS_CLUSTER_NAME
 #start cluster
 ecs-cli up --cluster $AWS_ECS_CLUSTER_NAME --verbose -region $AWS_DEFAULT_REGION --instance-role $ROLE_NAME --size 1 --instance-type t2.micro --vpc $VPC_ID --subnets $SUBNET_ID --security-group $SECURITY_GROUP_ID --ecs-profile $PROFILE_NAME --keypair $KEY_PAIR_NAME
 #run docker compose over clusters
-ecs-cli compose service down
-ecs-cli compose service up --cluster $AWS_ECS_CLUSTER_NAME --region $AWS_DEFAULT_REGION --ecs-profile $PROFILE_NAME --timeout 20
+ecs-cli compose service stop
+ecs-cli compose service up --cluster $AWS_ECS_CLUSTER_NAME --region $AWS_DEFAULT_REGION --ecs-profile $PROFILE_NAME --timeout 20 --force-deployment
