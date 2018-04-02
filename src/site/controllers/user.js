@@ -478,10 +478,22 @@ exports.getPayments = async (req, res, next) => {
     }
   })
 
+  const totalPaid = payments
+    .filter(payment => payment.status === PAYMENT_STATUS.PAID_TO_STREAMER)
+    .reduce((acc, payment) => {
+      return acc + payment.challenge.price + payment.challenge.fee
+    }, 0)
+
+  const totalOnVerification = payments
+    .filter(payment => payment.status === PAYMENT_STATUS.ON_VERIFICATION)
+    .reduce((acc, payment) => {
+      return acc + payment.challenge.price + payment.challenge.fee
+    }, 0)
+
   res.render('account/payments', {
     payments: displayPayments,
-    totalPaid: null,
-    totalOnVerification: null,
+    totalPaid,
+    totalOnVerification,
     PAYMENT_STATUS: PAYMENT_STATUS_MAP
   })
 }
