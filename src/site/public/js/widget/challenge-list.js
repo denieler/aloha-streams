@@ -16,16 +16,27 @@ document.addEventListener('DOMContentLoaded', function () {
   const reloadPageTime = calculateFullPageReloadTime(acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations)
 
   function calculateFullPageReloadTime (acceptedChallenges, doneChallenges, numberOfDisplayedChallenges, secondsDelayBetweenAnimations) {
-    return (acceptedChallenges.length + doneChallenges.length) % numberOfDisplayedChallenges === 0
+    const acceptedChallengesAmount = acceptedChallenges.length
+    const doneChallengesAmount = doneChallenges.length
+
+    let reloadTime = (acceptedChallengesAmount + doneChallengesAmount) % numberOfDisplayedChallenges === 0
       ? (
-        Math.trunc(acceptedChallenges.length / numberOfDisplayedChallenges) +
-        Math.trunc(doneChallenges.length / numberOfDisplayedChallenges)
+        Math.trunc(acceptedChallengesAmount / numberOfDisplayedChallenges) +
+        Math.trunc(doneChallengesAmount / numberOfDisplayedChallenges)
       ) * secondsDelayBetweenAnimations * 1000
       : (
-        Math.trunc(acceptedChallenges.length / numberOfDisplayedChallenges) +
-        Math.trunc(doneChallenges.length / numberOfDisplayedChallenges) +
+        Math.trunc(acceptedChallengesAmount / numberOfDisplayedChallenges) +
+        Math.trunc(doneChallengesAmount / numberOfDisplayedChallenges) +
         1
       ) * secondsDelayBetweenAnimations * 1000
+
+    if (!acceptedChallengesAmount && !doneChallengesAmount) {
+      reloadTime += 1 * secondsDelayBetweenAnimations * 1000
+    } else if (!acceptedChallengesAmount && doneChallengesAmount) {
+      reloadTime += 1 * secondsDelayBetweenAnimations * 1000
+    }
+
+    return reloadTime
   }
 
   function showChallengesInDisplayList (challengeListDisplay, challenges, index, numberOfDisplayedChallenges, challengeListNoChallenges) {
