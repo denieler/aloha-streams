@@ -452,3 +452,15 @@ exports.getWidgetsConfiguration = (req, res, next) => {
     challengeListWidgetLink
   })
 }
+
+/**
+ * GET /account/payments
+ * Streamer's payments page
+ */
+exports.getPayments = (req, res, next) => {
+  res.render('account/payments', {
+    payments: [],
+    totalPaid: null,
+    totalOnVerification: null
+  })
+}

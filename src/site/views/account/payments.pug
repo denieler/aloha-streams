@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Payments
+
+  .container
+    if payments && payments.length
+      .payments__header.row
+          .payments__column.col-md-2 Payment Id
+          .payments__column.col-md-3 Challenge
+          .payments__column.col-md-2 Reward
+          .payments__column.col-md-2 Fee
+          .payments__column.col-md-3 Status
+
+    .row
+      each payment in payments
+        .payments__column.payments_column_id.col-md-2 #{payment.id}
+        .payments__column.col-md-3 #{payment.challengeName}
+        .payments__column.col-md-2 #{payment.reward}
+        .payments__column.col-md-2 #{payment.fee}
+        .payments__column.col-md-3 #{payment.status}
+
+    if !payments || !payments.length
+      .row
+        .col-md-12.small
+          .center-stub-phrase You don't have payments yet. Take it as an opportunity! :)
+
+    .totals
+      .totals__amount
+        .totals__amount__title Total paid:
+        if totalPaid
+          #{totalPaid}
+        else
+          | --
+
+      .totals__amount
+        .totals__amount__title Total on verification:
+        if totalOnVerification
+          #{totalOnVerification}
+        else
+          | --
