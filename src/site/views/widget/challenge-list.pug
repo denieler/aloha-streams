@@ -27,7 +27,7 @@ block content
               div $#{challenge.price}
 
     #challenge-list-done.--hidden
-      each challenge in doneChallenges
+      each challenge in lastDoneChallenges
         .challenge.--done
           .challenge__name - #{challenge.name}
           .details
