@@ -47,30 +47,61 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   let challengeType = CHALLENGE_TYPES.ACCEPTED
 
-  function showHeader (headerNode) {
-    headerNode.classList.remove('--hidden')
+  function hideNode (node) {
+    node.classList.add('--hidden')
   }
 
-  function hideHeader (headerNode) {
-    headerNode.classList.add('--hidden')
+  function fadeOutNode (node) {
+    node.classList.add('--fade-out')
+    node.classList.remove('--fade-in')
+
+    return new Promise(resolve => {
+      setTimeout(resolve, 400)
+    })
+  }
+
+  function fadeInNode (node) {
+    node.classList.add('--fade-in')
+    node.classList.remove('--hidden')
+    node.classList.remove('--fade-out')
+
+    return new Promise(resolve => {
+      setTimeout(resolve, 400)
+    })
   }
 
   function showNextChallenges () {
+    challengeListDisplay.innerHTML = ''
+
     if (challengeType === CHALLENGE_TYPES.ACCEPTED) {
-      hideHeader(doneHeaderNode)
-      showHeader(inProgressHeaderNode)
-      showChallengesInDisplayList(challengeListDisplay, acceptedChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
+      fadeOutNode(doneHeaderNode)
+        .then(_ => {
+          hideNode(doneHeaderNode)
+          fadeInNode(inProgressHeaderNode)
+        })
     } else if (challengeType === CHALLENGE_TYPES.DONE) {
-      hideHeader(inProgressHeaderNode)
-      showHeader(doneHeaderNode)
-      showChallengesInDisplayList(challengeListDisplay, doneChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
+      fadeOutNode(inProgressHeaderNode)
+        .then(_ => {
+          hideNode(inProgressHeaderNode)
+          fadeInNode(doneHeaderNode)
+        })
     }
 
-    currentChallengeIndex += numberOfDisplayedChallenges
-    if (currentChallengeIndex > acceptedChallenges.length - 1) {
-      currentChallengeIndex = 0
-      challengeType = CHALLENGE_TYPES.DONE
-    }
+    fadeOutNode(challengeListDisplay)
+      .then(_ => {
+        if (challengeType === CHALLENGE_TYPES.ACCEPTED) {
+          showChallengesInDisplayList(challengeListDisplay, acceptedChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
+        } else if (challengeType === CHALLENGE_TYPES.DONE) {
+          showChallengesInDisplayList(challengeListDisplay, doneChallenges, currentChallengeIndex, numberOfDisplayedChallenges, challengeListNoChallenges)
+        }
+        fadeInNode(challengeListDisplay)
+
+        currentChallengeIndex += numberOfDisplayedChallenges
+        if (currentChallengeIndex > acceptedChallenges.length - 1) {
+          currentChallengeIndex = 0
+          challengeType = CHALLENGE_TYPES.DONE
+        }
+      })
   }
 
   function getUrlParamValue (paramName) {
@@ -95,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const removeLoopAnimation = getUrlParamValue('removeLoopAnimation')
-
   if (removeLoopAnimation) {
     challengeListDisplay.innerHTML = ''
     showNextChallenges()
@@ -103,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   setInterval(_ => {
-    challengeListDisplay.innerHTML = ''
     showNextChallenges()
   }, secondsDelayBetweenAnimations * 1000)
   showNextChallenges()

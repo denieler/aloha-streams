@@ -6,18 +6,18 @@ block content
   .w-challege-list.--transparent-bg
     .w-challege-list__project-name Challenges
 
-    #in-progress-header.w-challege-list__status-header
+    #in-progress-header
       div In Progress
       .w-challege-list__status-header_line
 
-    #done-header.w-challege-list__status-header.--hidden
+    #done-header.--hidden
       div Done
       .w-challege-list__status-header_line
 
     #challenge-list-accepted.--hidden
       each challenge in acceptedChallenges
         .challenge
-          div - #{challenge.name}
+          .challenge__name - #{challenge.name}
           .details
             .details__line
               .details__line__name Time left:
@@ -29,7 +29,7 @@ block content
     #challenge-list-done.--hidden
       each challenge in doneChallenges
         .challenge.--done
-          div - #{challenge.name}
+          .challenge__name - #{challenge.name}
           .details
             .details__line
               .details__line__name Time left:

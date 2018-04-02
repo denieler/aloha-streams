@@ -20,7 +20,7 @@ html, body {
 
   position: relative;
 
-  padding: 10px 6px 10px 4px;
+  padding: 10px 8px 10px 8px;
 }
 
 .--transparent-bg {
@@ -29,10 +29,6 @@ html, body {
 
 .w-challege-list * {
   box-sizing: border-box;
-}
-
-.w-challege-list__status-header {
-  margin-left: .8rem;
 }
 
 .w-challege-list__status-header_line{
@@ -52,10 +48,17 @@ html, body {
   margin-top: 12px;
   height: calc(190px - 10px * 2 - 1rem - 2px);
   overflow: hidden;
+  opacity: 1;
 }
 
 .challenge {
   margin: 0 0 12px 0;
+}
+
+.challenge__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .--done {
@@ -85,3 +88,12 @@ html, body {
   display: none;
 }
 
+.--fade-out {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+
+.--fade-in {
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
