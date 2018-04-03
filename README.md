@@ -1,5 +1,5 @@
-# wanna-commit
-Platform for challenging game streamers
+# Aloha Streams
+Platform for challenging the game streamers
 
 ### Development
 
