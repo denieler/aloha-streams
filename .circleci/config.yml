@@ -48,8 +48,9 @@ jobs:
       
       - run: docker-compose build
       
-      - run: docker push denieler/wannacommit_nodejs_server:latest
-      - run: docker push denieler/wannacommit_public_site:latest
+      - run: docker push denieler/alohastreams_nodejs_server:latest
+      - run: docker push denieler/alohastreams_public_site:latest
+      - run: docker push denieler/alohastreams_nginx_web:latest
 
       - run:
           name: Install AWS ECS cli
