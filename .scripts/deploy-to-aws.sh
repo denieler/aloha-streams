@@ -27,7 +27,10 @@ ecs-cli up \
     --ecs-profile $PROFILE_NAME \
     --keypair $KEY_PAIR_NAME
 #run docker compose over clusters
-ecs-cli compose service stop
+ecs-cli compose service stop \
+    --cluster $AWS_ECS_CLUSTER_NAME \
+    --region $AWS_DEFAULT_REGION \
+    --ecs-profile $PROFILE_NAME
 ecs-cli compose service up \
     --cluster $AWS_ECS_CLUSTER_NAME \
     --region $AWS_DEFAULT_REGION \
