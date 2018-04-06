@@ -2,10 +2,9 @@ version: '2'
 services:
   nodejs_server:
     container_name: nodejs_server
-    mem_limit: 350000000
-    restart: always
+    mem_limit: 200000000
     build: ./src/server
-    image: denieler/wannacommit_nodejs_server:latest
+    image: denieler/alohastreams_nodejs_server:latest
     ports:
       - "8083:8083"
     links:
@@ -17,13 +16,14 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-volume:/data/db
 
   public_site:
     container_name: public_site
     mem_limit: 250000000
-    restart: always
     build: ./src/site
-    image: denieler/wannacommit_public_site:latest
+    image: denieler/alohastreams_public_site:latest
     environment:
       - MONGODB_URI=mongodb://db_mongo:27017/test 
     ports:
@@ -33,3 +33,22 @@ services:
       - db_mongo
     depends_on: 
       - db_mongo
+
+  nginx_web:
+    container_name: nginx_web
+    mem_limit: 150000000
+    build: ./src/nginx
+    image: denieler/alohastreams_nginx_web:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx-volume:/etc/letsencrypt
+    links:
+      - public_site
+    depends_on: 
+      - public_site
+
+volumes:
+  nginx-volume:
+  mongo-volume:
