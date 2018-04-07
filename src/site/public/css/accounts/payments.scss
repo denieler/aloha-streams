@@ -18,6 +18,25 @@
   font-size: 1rem;
 }
 
+.payments__column__10width {
+  width: 10%;
+  float: left;
+}
+
+.payments__column__20width {
+  width: 20%;
+  float: left;
+}
+
+.payments__column__40width {
+  width: 40%;
+  float: left;
+}
+
+.payments__row {
+  clear: both;
+}
+
 .center-stub-phrase {
   text-align: center;
   margin: 3rem 0;

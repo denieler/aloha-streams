@@ -1,5 +1,7 @@
 @import 'accounts/payments';
 @import 'accounts/login';
+@import 'accounts/challenge';
+@import 'accounts/widgets';
 @import 'contact';
 
 .challenge-panel--finished {
@@ -21,6 +23,20 @@
 
 .navigation-toggle {
   margin-top: 18px;
+}
+
+.header__drop-down-item {
+  height: 4rem;
+}
+
+.header__drop-down-item__link {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100%;
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .aloha-container {

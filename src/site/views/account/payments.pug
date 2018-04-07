@@ -1,50 +1,51 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Payments
+  .aloha-container
+    h1.aloha-header Payments
 
-  .payments.container
-    if payments && payments.length
-      .payments__header.row
-          .payments__header__column.col-md-2 Payment Id
-          .payments__header__column.col-md-3 Challenge
-          .payments__header__column.col-md-2 Reward
-          .payments__header__column.col-md-2 Fee
-          .payments__header__column.col-md-3 Status
+    .payments
+      if payments && payments.length
+        .payments__header.payments__row
+            .payments__header__column.payments__column__20width Payment Id
+            .payments__header__column.payments__column__40width Challenge
+            .payments__header__column.payments__column__10width Reward
+            .payments__header__column.payments__column__10width Fee
+            .payments__header__column.payments__column__20width Status
 
-    .row
-      each payment in payments
-        .payments__column.payments__column__id.col-md-2 #{payment.id}
-        .payments__column.col-md-3 #{payment.challengeName}
-        .payments__column.col-md-2 #{payment.reward}
-        .payments__column.col-md-2 #{payment.fee}
-        .payments__column.col-md-3
-          if payment.status === PAYMENT_STATUS.ON_HOLD
-            span.label.label-default #{payment.status}
-          if payment.status === PAYMENT_STATUS.RETURNED_TO_VIEWER
-            span.label.label-danger #{payment.status}
-          if payment.status === PAYMENT_STATUS.ON_VERIFICATION
-            span.label.label-info #{payment.status}
-          if payment.status === PAYMENT_STATUS.PAID_TO_STREAMER
-            span.label.label-success #{payment.status}
+      .payments__row
+        each payment in payments
+          .payments__column.payments__column__id.payments__column__20width #{payment.id}
+          .payments__column.payments__column__40width #{payment.challengeName}
+          .payments__column.payments__column__10width #{payment.reward}
+          .payments__column.payments__column__10width #{payment.fee}
+          .payments__column.payments__column__20width
+            if payment.status === PAYMENT_STATUS.ON_HOLD
+              span.label.label-default #{payment.status}
+            if payment.status === PAYMENT_STATUS.RETURNED_TO_VIEWER
+              span.label.label-danger #{payment.status}
+            if payment.status === PAYMENT_STATUS.ON_VERIFICATION
+              span.label.label-info #{payment.status}
+            if payment.status === PAYMENT_STATUS.PAID_TO_STREAMER
+              span.label.label-success #{payment.status}
 
-    if !payments || !payments.length
-      .row
-        .col-md-12.small
-          .center-stub-phrase You don't have payments yet. Take it as an opportunity! :)
+      if !payments || !payments.length
+        .row
+          .col-md-12.small
+            .center-stub-phrase You don't have payments yet. Take it as an opportunity! :)
 
-    .totals
-      .totals__amount
-        .totals__amount__title Total paid:
-        if totalPaid
-          | #{totalPaid}
-        else
-          | --
+      .payments__row
+      .totals
+        .totals__amount
+          .totals__amount__title Total paid:
+          if totalPaid
+            | #{totalPaid}
+          else
+            | --
 
-      .totals__amount
-        .totals__amount__title Total on verification:
-        if totalOnVerification
-          | #{totalOnVerification}
-        else
-          | --
+        .totals__amount
+          .totals__amount__title Total on verification:
+          if totalOnVerification
+            | #{totalOnVerification}
+          else
+            | --
