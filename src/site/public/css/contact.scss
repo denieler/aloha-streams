@@ -1,0 +1,35 @@
+.contact-form__block {
+  margin-top: 2rem;
+}
+
+.contact-form__label {
+  display: block;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
+.contact-form__input {
+  display: block;
+  width: 100%;
+  min-height: 4rem;
+  font-size: 16px;
+  padding: 0 1.5rem 0 1.5rem;
+  margin: .5rem 0 .5rem 0;
+  background: white;
+  border-radius: 3px;
+}
+
+.contact-form__submit {
+  border-radius: 2px !important;
+  height: 4rem;
+  width: 100%;
+  text-align: center;
+  transition: 200ms all;
+  background-color: #01A9AA;
+  color: #ffffff;
+  margin-top: 1rem;
+}
+
+.contact-form__submit:hover {
+  background-color: #02bcbd;
+}

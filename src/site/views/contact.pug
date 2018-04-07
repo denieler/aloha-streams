@@ -1,25 +1,21 @@
 extends layout
 
 block content
-  .page-header
-    h3 Contact Form
+  .aloha-container
+    h1.aloha-header Contact us
 
-  form.form-horizontal(method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label(class='col-sm-2 control-label', for='name') Name
-      .col-sm-8
-        input.form-control(type='text', name='name', id='name', autofocus=true)
-    .form-group
-      label(class='col-sm-2 control-label', for='email') Email
-      .col-sm-8
-        input.form-control(type='text', name='email', id='email')
-    .form-group
-      label(class='col-sm-2 control-label', for='message') Body
-      .col-sm-8
-        textarea.form-control(name='message', id='message', rows='7')
-    .form-group
-      .col-sm-offset-2.col-sm-8
-        button.btn.btn-primary(type='submit')
+    form(method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .contact-form__block
+        label.contact-form__label(for='name') Name
+        input.contact-form__input(type='text', name='name', id='name', autofocus=true)
+      .contact-form__block
+        label.contact-form__label(for='email') Email
+        input.contact-form__input(type='text', name='email', id='email')
+      .contact-form__block
+        label.contact-form__label(for='message') Body
+        textarea.contact-form__input(name='message', id='message', rows='7')
+      .contact-form__block
+        button.contact-form__submit(type='submit')
           i.fa.fa-envelope
           | Send
