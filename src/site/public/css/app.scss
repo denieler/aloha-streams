@@ -4,6 +4,9 @@
 @import 'accounts/widgets';
 @import 'accounts/profile';
 @import 'contact';
+@import 'challenges/new';
+@import 'challenges/payment-options';
+@import 'challenges/success';
 
 .challenge-panel--finished {
   opacity: 0.3;

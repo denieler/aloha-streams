@@ -1,32 +1,32 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 New Challenge
+  .aloha-container
+    h1.aloha-header New Challenge
 
-  form(method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-    input(type='hidden', name='streamerId', value=streamerId)
-    .form-group
-      label(for='name') Write here your challenge task:
-      input.form-control(type='text', name='name', id='name', autofocus=true)
-    .form-group
-      label(for='description') Do you want to explain in details?
-        small &nbsp;(optional)
-      textarea.form-control(type='text', name='description', id='description', rows='4')
-    .form-group
-      label(for='reward') Reward for the streamer (..if challenge will be accomplished):
-      .input-group
-        .input-group-addon $
-        input.form-control(type='number', name='reward', id='reward', min='0.00', max='10000.00' step='0.01')
-    .form-group
-      small The mandatory commission in $#{fee || 1} will be charged as a donation to the streamer.
-    .form-group
-      each duration in challengeDurations
-        label.radio-inline(for='duration-' + duration.text.replace(' ', '').toLowerCase())
-            input(type='radio', name='duration', id='duration-' + duration.text.replace(' ', '').toLowerCase(), value=duration.time)
-            | #{duration.text}
-    .form-group
-      label(for='nickname') Your name:
-      input.form-control(type='text', name='nickname', id='nickname')
-    button.btn.btn-primary(type='submit') Create the challenge
+    form(method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      input(type='hidden', name='streamerId', value=streamerId)
+      .new-challenge-form__block
+        label.new-challenge-form__label(for='name') Write here your challenge task:
+        input.new-challenge-form__input(type='text', name='name', id='name', autofocus=true)
+      .new-challenge-form__block
+        label.new-challenge-form__label(for='description') Do you want to explain in details?
+          small &nbsp;(optional)
+        textarea.new-challenge-form__input(type='text', name='description', id='description', rows='4')
+      .new-challenge-form__block
+        label.new-challenge-form__label(for='reward') Reward for the streamer (..if challenge will be accomplished):
+        .input-group
+          .input-group-addon $
+          input.new-challenge-form__input.new-challenge-form__input--no-margin(type='number', name='reward', id='reward', min='0.00', max='10000.00' step='0.01')
+      .new-challenge-form__block
+        small The mandatory commission in $#{fee || 1} will be charged as a donation to the streamer.
+      .new-challenge-form__block
+        each duration in challengeDurations
+          label.radio-inline(for='duration-' + duration.text.replace(' ', '').toLowerCase())
+              input(type='radio', name='duration', id='duration-' + duration.text.replace(' ', '').toLowerCase(), value=duration.time)
+              | #{duration.text}
+      .new-challenge-form__block
+        label.new-challenge-form__label(for='nickname') Your name:
+        input.new-challenge-form__input(type='text', name='nickname', id='nickname')
+      button.new-challenge-form__submit(type='submit') Create the challenge

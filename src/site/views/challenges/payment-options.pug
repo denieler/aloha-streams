@@ -5,35 +5,35 @@ block content
   script(src='https://www.paypalobjects.com/api/checkout.js')
   script(src='/js/payment.js')
 
-  .page-header
-    h3 Submit Challenge
+  .aloha-container
+    h1.aloha-header Submit Challenge
 
-  div(style='width: 500px;')
-    div.panel(style='margin: 25px 0; padding: 15px;')
+    .panel.payment-options__challenge
       h4 #{name}
       p #{description}
       p #{duration}
 
-      div(style='display: flex; flex-direction: column; align-items: flex-end;')
+      .payment-options__challenge__price
         div Reward: $#{price}
         div Fee: $#{fee}
 
-    div
+    .payment-options__payment-methods
       input(type='hidden', name='_csrf', id='_csrf', value=_csrf)
       input(type='hidden', name='challengeId', id='challengeId', value=challengeId)
       input(type='hidden', name='price', id='price', value=price)
       input(type='hidden', name='fee', id='fee', value=fee)
-      .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
+      input(type='hidden', name='streamerId', id='streamerId', value=streamerId)
+      .form-group.panel.radio.payment-options__payment-methods__method.payment-method
         label
-          input(type='radio', name='paymentMethod', value='stripe', id='radio-stripe', checked)
-          | Stripe
-        div
-          img(src='/images/logo-stripe.svg', style='width: 80px; height: 38px;')
-      .form-group.panel.radio(style='height: 70px; padding: 15px; display: flex; align-items: center; justify-content: space-between;')
-        label
-          input(type='radio', name='paymentMethod', value='payPal', id='radio-paypal')
+          input(type='radio', name='paymentMethod', value='payPal', id='radio-paypal', checked)
           | PayPal
         div
-          img(src='/images/logo-paypal.svg', style='width: 80px; height: 38px;')
-      button.btn.btn-primary(id='stripe-submit-payment', style='display: none;') Submit challenge
-      div(id='paypal-submit-payment', style='display: none;')
+          img.payment-method__logo(src='/images/logo-paypal.svg')
+      .form-group.panel.radio.payment-options__payment-methods__method.payment-method
+        label
+          input(type='radio', name='paymentMethod', value='stripe', id='radio-stripe')
+          | Stripe
+        div
+          img.payment-method__logo(src='/images/logo-stripe.svg')
+      button.payment-options__submit(id='stripe-submit-payment', style='display: none;') Submit challenge
+      div.payment-options__submit--paypal(id='paypal-submit-payment', style='display: none;')

@@ -1,5 +1,16 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Thank you!
+  .aloha-container
+    h1.aloha-header Thank you!
+
+    p Do you want to add one more challenge maybe? :)
+    p Easy-peasy!
+
+    .row
+      .col-md-12.small
+        .center-stub-phrase
+          a.success__link(href=newChallengeUrl)
+            | Add another challenge 
+            i.fa.fa-angle-double-right
+
