@@ -1,5 +1,46 @@
 @import 'accounts/payments';
+@import 'accounts/login';
+@import 'contact';
 
 .challenge-panel--finished {
   opacity: 0.3;
+}
+
+.logo {
+  display: block;
+  padding: 10px 0;
+}
+
+.logo__image {
+  height: 50px;
+}
+
+.navigation {
+  padding: 10px 0;
+}
+
+.navigation-toggle {
+  margin-top: 18px;
+}
+
+.aloha-container {
+  width: 760px;
+  margin: 0 auto;
+}
+
+.aloha-container--short {
+  width: 256px;
+}
+
+.aloha-header {
+  color: #362D01;
+  font-size: 3rem;
+  margin: 6rem 0;
+}
+
+.aloha-header:after {
+  content: '';
+  display: block;
+  height: 2px;
+  background-color: #01A9AA;
 }
