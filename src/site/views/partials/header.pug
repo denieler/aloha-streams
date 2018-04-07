@@ -31,14 +31,14 @@
               span= user.profile.name || user.email || user.id
               i.caret
             ul.dropdown-menu
-              li
-                a(href='/account/challenges') Challenge settings
-              li
-                a(href='/account/widgets') Stream Widgets
-              li
-                a(href='/account/payments') Payments
-              li
-                a(href='/account') My Account
-              li.divider
-              li
-                a(href='/logout') Logout
+              li.header__drop-down-item
+                a.header__drop-down-item__link(href='/account/challenges') Challenge settings
+              li.header__drop-down-item
+                a.header__drop-down-item__link(href='/account/widgets') Stream Widgets
+              li.header__drop-down-item
+                a.header__drop-down-item__link(href='/account/payments') Payments
+              li.header__drop-down-item
+                a.header__drop-down-item__link(href='/account') My Account
+              li.header__drop-down-item.divider
+              li.header__drop-down-item
+                a.header__drop-down-item__link(href='/logout') Logout
