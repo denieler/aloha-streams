@@ -19,6 +19,10 @@
   border-radius: 3px;
 }
 
+.login-form__input:focus {
+  outline-color: #01A9AA;
+}
+
 .login-form__submit {
   border-radius: 2px !important;
   height: 4rem;
