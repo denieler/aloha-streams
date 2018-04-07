@@ -17,6 +17,11 @@
   margin: .5rem 0 .5rem 0;
   background: white;
   border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.login-form__input:focus {
+  outline-color: #01A9AA;
 }
 
 .login-form__submit {

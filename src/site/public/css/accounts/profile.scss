@@ -1,14 +1,14 @@
-.contact-form__block {
+.profile-form__block {
   margin-top: 2rem;
 }
 
-.contact-form__label {
+.profile-form__label {
   display: block;
   font-weight: normal;
   margin-bottom: 1rem;
 }
 
-.contact-form__input {
+.profile-form__input {
   display: block;
   width: 100%;
   min-height: 4rem;
@@ -20,11 +20,11 @@
   border: 1px solid #ccc;
 }
 
-.contact-form__input:focus {
+.profile-form__input:focus {
   outline-color: #01A9AA;
 }
 
-.contact-form__submit {
+.profile-form__submit {
   border-radius: 2px !important;
   height: 4rem;
   width: 100%;
@@ -35,6 +35,18 @@
   margin-top: 1rem;
 }
 
-.contact-form__submit:hover {
+.profile-form__submit:hover {
   background-color: #02bcbd;
+}
+
+.profile-form__block__radio-group {
+  display: flex;
+}
+
+.radio-group__item {
+  margin: 0 1rem;
+}
+
+.radio-group__item__radio {
+  margin-right: 1rem !important;
 }

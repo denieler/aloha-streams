@@ -3,6 +3,7 @@
   var confirmPayment = function (paymentId, paymentMethodName, status) {
     var _csrf = document.getElementById('_csrf').value
     var challengeId = document.getElementById('challengeId').value
+    var streamerId = document.getElementById('streamerId').value
 
     fetch('/challenge/' + challengeId + '/payment', {
       body: JSON.stringify({
@@ -25,7 +26,7 @@
           throw new Error('Something goes wrong during the payment. Please ask our support for the help.')
         }
 
-        window.location.href = '/challenges/success'
+        window.location.href = '/challenges/success?streamerId=' + streamerId
       })
   }
 
@@ -97,8 +98,8 @@
     var RadioButtonStripe = document.getElementById('radio-stripe')
     var RadioButtonPayPal = document.getElementById('radio-paypal')
 
-    StripePaymentButton.style.display = 'block'
-    PaypalPaymentButton.style.display = 'none'
+    StripePaymentButton.style.display = 'none'
+    PaypalPaymentButton.style.display = 'block'
 
     RadioButtonStripe.addEventListener('change', function (e) {
       if (e.target.value === 'stripe') {

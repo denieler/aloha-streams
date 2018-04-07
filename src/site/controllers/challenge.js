@@ -5,6 +5,7 @@ const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const PAYMENT_STATUS = require('../constants/paymentStatus')
 const utils = require('../utils/durationFormatter')
+const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
 
 /**
  * GET /challenges/new
@@ -37,7 +38,12 @@ exports.getNewChallenge = async (req, res) => {
  * Success new challenge page
  */
 exports.getSuccessNewChallenge = (req, res) => {
-  res.render('challenges/success', {})
+  const streamerId = req.query.streamerId
+  const shareLink = getFullUrlFromRequest(req) +
+    '/challenges/new/' + streamerId
+  res.render('challenges/success', {
+    newChallengeUrl: shareLink
+  })
 }
 
 /**
@@ -73,7 +79,7 @@ exports.putNewChallenge = async (req, res, next) => {
       streamerId
     })
 
-    return res.redirect(`/challenge/${challenge._id}/payment`)
+    return res.redirect(`/challenge/${challenge._id}/payment?streamerId=${streamerId}`)
   } catch (err) {
     next(err)
   }
@@ -106,6 +112,7 @@ exports.getMyStreamerChallenges = async (req, res) => {
  */
 exports.getNewChallengePaymentOptions = async (req, res) => {
   const challengeId = req.params.challengeId
+  const streamerId = req.query.streamerId
   const challenge = await Challenge.get({ challengeId })
 
   if (!challenge) {
@@ -118,7 +125,8 @@ exports.getNewChallengePaymentOptions = async (req, res) => {
     duration: utils.formatDuration(challenge.duration),
     price: challenge.price,
     fee: challenge.fee,
-    challengeId: challenge._id
+    challengeId: challenge._id,
+    streamerId
   })
 }
 

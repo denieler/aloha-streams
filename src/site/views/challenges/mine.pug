@@ -35,3 +35,11 @@ block content
             .panel-footer.done-footer
               button.btn.btn-success.done-challenge(type='button', style='margin-right: 5px;', data-challenge-id=challenge._id) Done
               button.btn.btn-danger.reject-challenge(type='button', data-challenge-id=challenge._id) Can't do it
+
+    if !challenges || !challenges.length
+        .row
+          .col-md-12.small
+            .center-stub-phrase
+              | There are no challenges yet. Don't forget to share the 
+              a(href='/account/challenges') link
+              |  to your viewers and everything will be great! :)
