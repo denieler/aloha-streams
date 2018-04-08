@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const inProgressHeaderNode = document.getElementById('in-progress-header')
   const doneHeaderNode = document.getElementById('done-header')
 
-  const numberOfDisplayedChallenges = 3
+  const numberOfDisplayedChallenges = 2
   const animationDelay = 0.4
-  const secondsDelayBetweenAnimations = 4 + animationDelay
+  const secondsDelayBetweenAnimations = 8 + animationDelay
 
   const acceptedChallenges = challengeListAccepted.getElementsByClassName('challenge')
   const doneChallenges = challengeListDone.getElementsByClassName('challenge')
