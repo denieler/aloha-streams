@@ -6,11 +6,14 @@ html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 24px;
+  font-size: 25px;
   text-rendering: optimizeLegibility;
   font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+
+  width: 800px;
+  height: 600px;
 }
 
 .w-challege-list {
@@ -19,7 +22,7 @@ html, body {
   background-color: #1E253C;
 
   width: 800px;
-  height: 600px;
+  height: 405px;
 
   overflow: hidden;
 
@@ -47,7 +50,7 @@ html, body {
 
 .challenge-list {
   margin-top: 1.2rem;
-  height: calc(600px - 10px * 2 - 1rem - 2px);
+  height: calc(405px - 10px * 2 - 1rem - 2px);
   overflow: hidden;
   opacity: 1;
 }
