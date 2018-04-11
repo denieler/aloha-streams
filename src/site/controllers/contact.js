@@ -1,10 +1,11 @@
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-  service: 'SendGrid',
+  host: 'smtp.ethereal.email',
+  port: 587,
   auth: {
-    user: process.env.SENDGRID_USER,
-    pass: process.env.SENDGRID_PASSWORD
+    user: process.env.ETHEREAL_USER,
+    pass: process.env.ETHEREAL_PASSWORD
   }
 })
 

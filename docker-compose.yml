@@ -26,8 +26,8 @@ services:
     image: denieler/alohastreams_public_site:latest
     environment:
       - MONGODB_URI=mongodb://db_mongo:27017/test 
-      - SENDGRID_USER=denieler
-      - SENDGRID_PASSWORD=aloha2018
+      - ETHEREAL_USER=i7cau6crbi5nj64o@ethereal.email
+      - ETHEREAL_PASSWORD=knKgq7vFbYNu7gecAj
     ports:
       - "3000:3000"
     links:
