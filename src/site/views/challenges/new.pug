@@ -1,6 +1,8 @@
 extends ../layout
 
 block content
+  script(src='/js/challenges/new.js')
+
   .aloha-container
     h1.aloha-header New Challenge
 
@@ -9,11 +11,11 @@ block content
       input(type='hidden', name='streamerId', value=streamerId)
       .new-challenge-form__block
         label.new-challenge-form__label(for='name') Write here your challenge task:
-        input.new-challenge-form__input(type='text', name='name', id='name', autofocus=true)
+        input.new-challenge-form__input(type='text', name='name', id='name', maxlength='140', autofocus=true)
       .new-challenge-form__block
-        label.new-challenge-form__label(for='description') Do you want to explain in details?
-          small &nbsp;(optional)
-        textarea.new-challenge-form__input(type='text', name='description', id='description', rows='4')
+        a.new-challenge-form__link(id='description-link') Do you want to explain in details?
+        small.hidden(id='description-optional-label') &nbsp;(optional)
+        textarea.new-challenge-form__input.hidden(type='text', name='description', id='description-textarea', rows='4')
       .new-challenge-form__block
         label.new-challenge-form__label(for='reward') Reward for the streamer (..if challenge will be accomplished):
         .input-group
