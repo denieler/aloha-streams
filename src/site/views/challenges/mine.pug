@@ -23,9 +23,9 @@ block content
             if challenge.currentChallengeStatus.status === 'NEW' || challenge.currentChallengeStatus.status === 'REJECTED'
               div #{challenge.currentChallengeStatus.status}
           .panel-body
-            div(style='font-size: 16px;') #{challenge.name}
+            div.challenge-panel__body__name #{challenge.name}
             if challenge.description
-              div(style='margin-top: 25px; font-size: 16px;')
+              div.challenge-panel__body__description
                 div Description:
                 div #{challenge.description}
           if challenge.currentChallengeStatus.status === 'NEW'
