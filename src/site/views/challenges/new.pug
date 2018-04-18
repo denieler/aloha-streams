@@ -1,6 +1,8 @@
 extends ../layout
 
 block content
+  script(src='/js/challenges/new.js')
+
   .aloha-container
     h1.aloha-header New Challenge
 
@@ -9,24 +11,24 @@ block content
       input(type='hidden', name='streamerId', value=streamerId)
       .new-challenge-form__block
         label.new-challenge-form__label(for='name') Write here your challenge task:
-        input.new-challenge-form__input(type='text', name='name', id='name', autofocus=true)
+        input.new-challenge-form__input(type='text', name='name', id='name', maxlength='140', required, autofocus=true)
       .new-challenge-form__block
-        label.new-challenge-form__label(for='description') Do you want to explain in details?
-          small &nbsp;(optional)
-        textarea.new-challenge-form__input(type='text', name='description', id='description', rows='4')
+        a.new-challenge-form__link(id='description-link') Do you want to explain in details?
+        small.hidden(id='description-optional-label') &nbsp;(optional)
+        textarea.new-challenge-form__input.hidden(type='text', name='description', id='description-textarea', rows='4')
       .new-challenge-form__block
         label.new-challenge-form__label(for='reward') Reward for the streamer (..if challenge will be accomplished):
         .input-group
           .input-group-addon $
-          input.new-challenge-form__input.new-challenge-form__input--no-margin(type='number', name='reward', id='reward', min='0.00', max='10000.00' step='0.01')
+          input.new-challenge-form__input.new-challenge-form__input--no-margin(type='number', name='reward', id='reward', min='0.5', max='10000.00', step='0.01', required)
       .new-challenge-form__block
         small The mandatory commission in $#{fee || 1} will be charged as a donation to the streamer.
       .new-challenge-form__block
         each duration in challengeDurations
           label.radio-inline(for='duration-' + duration.text.replace(' ', '').toLowerCase())
-              input(type='radio', name='duration', id='duration-' + duration.text.replace(' ', '').toLowerCase(), value=duration.time)
+              input(type='radio', required, name='duration', id='duration-' + duration.text.replace(' ', '').toLowerCase(), value=duration.time)
               | #{duration.text}
       .new-challenge-form__block
         label.new-challenge-form__label(for='nickname') Your name:
-        input.new-challenge-form__input(type='text', name='nickname', id='nickname')
+        input.new-challenge-form__input(type='text', name='nickname', id='nickname', required, maxlength='35')
       button.new-challenge-form__submit(type='submit') Create the challenge
