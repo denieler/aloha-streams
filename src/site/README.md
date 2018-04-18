@@ -1,13 +1,13 @@
 # How to start dev environment
 
-Go to the root folder `./wanna-commit` where file `docker-compose.yml` is.
+Go to the root folder `./aloha-streams` where file `docker-compose.yml` is.
 Run Mongo DB server by running the command:
 
 ```
 $ docker-compose up -d db_mongo
 ```
 
-Go to the folder of the public site `./wanna-commit/src/site`, start dev server:
+Go to the folder of the public site `./aloha-streams/src/site`, start dev server:
 ```
 $ yarn start
 ```
