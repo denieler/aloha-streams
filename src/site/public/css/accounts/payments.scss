@@ -12,10 +12,17 @@
 
 .payments__column {
   margin: 2rem 0;
+  line-height: 2rem;
 }
 
 .payments__column__id {
   font-size: 1rem;
+}
+
+.payments__column__challenge-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .payments__column__10width {

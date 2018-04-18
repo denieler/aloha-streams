@@ -13,10 +13,10 @@ block content
             .payments__header__column.payments__column__10width Fee
             .payments__header__column.payments__column__20width Status
 
-      .payments__row
-        each payment in payments
+      each payment in payments
+        .payments__row
           .payments__column.payments__column__id.payments__column__20width #{payment.id}
-          .payments__column.payments__column__40width #{payment.challengeName}
+          .payments__column.payments__column__challenge-name.payments__column__40width #{payment.challengeName}
           .payments__column.payments__column__10width #{payment.reward}
           .payments__column.payments__column__10width #{payment.fee}
           .payments__column.payments__column__20width
