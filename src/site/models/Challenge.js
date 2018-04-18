@@ -101,6 +101,7 @@ Challenge.getAllForStreamer = ({ streamerId }) => {
     .limit(10)
     .sort({ createdAt: -1 })
     .populate('currentChallengeStatus')
+    .populate('viewer')
     .exec()
 }
 
