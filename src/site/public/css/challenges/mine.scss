@@ -1,0 +1,29 @@
+.challenge-panel--finished {
+  opacity: 0.3;
+}
+
+.challenge-panel__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.challenge-panel__header__reward {
+  padding-bottom: 10px;
+}
+
+.challenge-panel__header__price {
+  font-size: 24px;
+}
+
+.challenge-panel__header__nickname {
+  font-size: 24px;
+}
+
+.challenge-panel__body__name {
+  font-size: 16px;
+}
+
+.challenge-panel__body__description {
+  margin-top: 25px;
+  font-size: 16px;
+}

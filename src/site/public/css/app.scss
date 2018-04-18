@@ -7,11 +7,8 @@
 @import 'challenges/new';
 @import 'challenges/payment-options';
 @import 'challenges/success';
+@import 'challenges/mine';
 @import 'utils/appearOpacity';
-
-.challenge-panel--finished {
-  opacity: 0.3;
-}
 
 .logo {
   display: block;

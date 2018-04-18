@@ -12,18 +12,20 @@ block content
             class={
               'challenge-panel--finished': challenge.currentChallengeStatus.status === 'DONE' || challenge.currentChallengeStatus.status === 'REJECTED'
             })
-          .panel-heading(style='display: flex; justify-content: space-between;')
+          .panel-heading.challenge-panel__header
             div
-              h3.panel-title(style='padding-bottom: 10px;') Reward: 
-                span(style='font-size: 24px;') $#{challenge.price} 
+              h3.panel-title.challenge-panel__header__reward Reward: 
+                span.challenge-panel__header__price $#{challenge.price} 
                 span + $#{challenge.fee} tips
+                span  from 
+                span.challenge-panel__header__nickname #{challenge.viewer && challenge.viewer.nickname}
               h4.panel-title Time: #{formatDuration(challenge.duration)}
             if challenge.currentChallengeStatus.status === 'NEW' || challenge.currentChallengeStatus.status === 'REJECTED'
               div #{challenge.currentChallengeStatus.status}
           .panel-body
-            div(style='font-size: 16px;') #{challenge.name}
+            div.challenge-panel__body__name #{challenge.name}
             if challenge.description
-              div(style='margin-top: 25px; font-size: 16px;')
+              div.challenge-panel__body__description
                 div Description:
                 div #{challenge.description}
           if challenge.currentChallengeStatus.status === 'NEW'
