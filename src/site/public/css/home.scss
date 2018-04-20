@@ -1,0 +1,92 @@
+.main {
+  min-height: 726px;
+}
+
+.main__content {
+  position: absolute;
+  top: calc(6rem + 10px); // header size
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.slogan__first-line {
+  display: flex;
+
+  margin-top: 2rem;
+  margin-left: calc(50% - 38rem);
+}
+
+.slogan__first-line__small-tittle {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  margin: 0;
+
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.slogan__second-line {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 3rem;
+}
+
+.slogan__second-line__main-tittle {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  margin: 0;
+
+  font-size: 7rem;
+  font-weight: bold;
+}
+
+.information-block {
+  width: 29rem;
+  margin-top: 8rem;
+  margin-left: calc(50% - 38rem);
+}
+
+.information-block__main-text {
+  font-size: 1.5rem;
+  line-height: 3rem;
+  color: #1B1B1C;
+}
+
+.information-block__try-button {
+  display: block;
+  text-decoration: none;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: #1B1B1C;
+  color: #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.information-block__try-button:hover {
+  background-color: #46464A;
+  text-decoration: none;
+  color: #EEEEEE;
+}
+
+.information-block__social-icons {
+  margin-top: 8rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.social-icons__twitch__image {
+  height: 5rem;
+}
+
+.social-icons__youtube__image {
+  height: 3rem;
+}

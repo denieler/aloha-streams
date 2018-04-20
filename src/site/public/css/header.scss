@@ -1,0 +1,50 @@
+.header {
+  top: 10px;
+  position: relative;
+  height: 6rem;
+  display: flex;
+  padding: 0 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.logo {
+  display: block;
+}
+
+.logo__image {
+  height: 50px;
+}
+
+.header__buttons {
+  list-style: none;
+  display: flex;
+
+  margin: 0;
+  padding: 0;
+}
+
+.header__buttons__list-item {
+  margin: 0 1.5rem;
+}
+
+.header__buttons__list-item__link {
+  color: #1B1B1C;
+}
+
+.header__drop-down-item {
+  height: 4rem;
+}
+
+.header__drop-down-item__link {
+  padding: 1rem !important;
+  margin: 0 !important;
+  height: 100%;
+  width: 100%;
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+  color: #1B1B1C;
+}
