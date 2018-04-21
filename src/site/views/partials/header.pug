@@ -13,12 +13,12 @@
       li.header__buttons__list-item(class=(title === 'Create Account') ? 'active' : undefined)
         a.header__buttons__list-item__link(href='/signup') Create Account
     else
-      li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
-        a.dropdown-toggle(href='#', data-toggle='dropdown')
+      li.dropdown.header__buttons__list-item(class=(title === 'Account Management') ? 'active' : undefined)
+        a.dropdown-toggle.header__buttons__user-email-link(href='#', data-toggle='dropdown')
           if user.profile.picture
-            img(src=user.profile.picture)
+            img.header__buttons__user-email-link__image(src=user.profile.picture)
           else
-            img(src=user.gravatar(60))
+            img.header__buttons__user-email-link__image(src=user.gravatar(40))
           span= user.profile.name || user.email || user.id
           i.caret
         ul.dropdown-menu
@@ -33,3 +33,6 @@
           li.header__drop-down-item.divider
           li.header__drop-down-item
             a.header__drop-down-item__link(href='/logout') Logout
+  .header__buttons--mobile
+    a.header__buttons--mobile__burger-link(id='header-buttons-mobile')
+      i.fas.fa-bars.fa-2x

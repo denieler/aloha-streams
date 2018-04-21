@@ -1,32 +1,23 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='theme-color' content='#1B1B1C')
-    meta(name='csrf-token', content=_csrf)
-    title #{title} - Aloha Streams
-    link(rel='shortcut icon', href='/favicon.png')
-    link(rel='stylesheet', href='/css/main.css')
+extends base-layout
 
-  body
-    .main
-      .background-wrapper
-        .background-left-pattern
-        .background
-        .background-right-pattern
+block body
+  .main
+    .background-wrapper
+      .background-left-pattern
+      .background
+      .background-right-pattern
 
-      include partials/header
+    include partials/header
 
-      .main__content
-        include partials/flash
-        .slogan
-          .slogan__first-line
-            h1.slogan__first-line__small-tittle New streaming trend -
-          .slogan__second-line
-            h1.slogan__second-line__main-tittle Challenges
+    .main__content
+      include partials/flash
+      .slogan
+        .slogan__first-line
+          h1.slogan__first-line__small-tittle New streaming trend -
+        .slogan__second-line
+          h1.slogan__second-line__main-tittle Challenges
 
+      .information-block__wrapper
         .information-block
           .information-block__main-text
             span Grows your earnings from the stream up to 
@@ -42,12 +33,4 @@ html
               img.social-icons__youtube__image(src='/images/youtube-logo.svg')
 
 
-      include partials/footer
-
-    script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-117169955-1")
-    script.
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-117169955-1');
+    include partials/footer
