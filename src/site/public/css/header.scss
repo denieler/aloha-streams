@@ -26,8 +26,36 @@
   padding: 0;
 }
 
+.header__buttons--mobile {
+  display: none;
+}
+
 .header__buttons__list-item {
   margin: 0 1.5rem;
+}
+
+@media only screen and (max-width: 667px) and (orientation: portrait) {
+  .header__buttons {
+    display: none;
+    position: absolute;
+    right: 6rem;
+    top: 4rem;
+    z-index: 10;
+    background: #f4f4f4;
+    flex-direction: column;
+  }
+
+  .header__buttons--show {
+    display: block;
+  }
+
+  .header__buttons__list-item {
+    margin: 2.5rem 3.5rem;
+  }
+
+  .header__buttons--mobile {
+    display: block;
+  }
 }
 
 .header__buttons__list-item__link {
@@ -47,4 +75,10 @@
   justify-content: flex-start;
   align-items: center;
   color: #1B1B1C;
+}
+
+.header__buttons--mobile__burger-link {
+  display: block;
+  color: #1B1B1C;
+  text-decoration: none;
 }
