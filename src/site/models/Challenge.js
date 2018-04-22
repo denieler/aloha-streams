@@ -90,7 +90,9 @@ Challenge.get = ({
 }) => {
   return Challenge.findOne({
     _id: challengeId
-  }).exec()
+  })
+    .populate('viewer')
+    .exec()
 }
 
 Challenge.getAllForStreamer = ({ streamerId }) => {

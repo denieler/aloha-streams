@@ -54,6 +54,14 @@ const passportConfig = require('./config/passport');
 const app = express();
 
 /**
+ *  Socket server
+ */
+const socketServer = require('http').Server(app)
+const io = require('socket.io')(socketServer)
+const socketIoClients = []
+socketServer.listen(3001)
+
+/**
  * Connect to MongoDB.
  */
 mongoose.Promise = global.Promise;
@@ -121,6 +129,11 @@ app.use((req, res, next) => {
   }
   next();
 });
+app.use((req, res, next) => {
+  req.io = io
+  req.socketIoClients = socketIoClients
+  next()
+})
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
@@ -161,8 +174,9 @@ app.post('/challenge/accept', challengeController.postAcceptChallenge);
 app.post('/challenge/reject', challengeController.postRejectChallenge);
 app.post('/challenge/done', challengeController.postDoneChallenge);
 
-app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget);
-app.get('/widget/new-challenge/:streamerId', newChallengeWidgetController.getNewChallengeWidget);
+app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget)
+app.get('/widget/new-challenge/:streamerId', newChallengeWidgetController.getNewChallengeWidget)
+app.get('/ping', newChallengeWidgetController.ping)
 
 /**
  * API examples routes.
@@ -248,14 +262,21 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 /**
  * Error Handler.
  */
-app.use(errorHandler());
+app.use(errorHandler())
 
 /**
  * Start Express server.
  */
 app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
-});
+  // eslint-disable-next-line
+  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'))
+  // eslint-disable-next-line
+  console.log('  Press CTRL-C to stop\n')
+})
 
-module.exports = app;
+io.on('connection', function (socket) {
+  const streamerId = socket.handshake.query.streamerId
+  socketIoClients[streamerId] = socket.id
+})
+
+module.exports = app

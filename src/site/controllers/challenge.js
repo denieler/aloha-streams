@@ -167,6 +167,19 @@ exports.postNewChallengePayment = async (req, res) => {
       payment: payment._id
     })
 
+    try {
+      const clientSocketId = req.socketIoClients[streamerId]
+      const challengeData = {
+        name: challenge.name,
+        price: challenge.price,
+        duration: utils.formatDuration(challenge.duration),
+        nickname: challenge.viewer.nickname
+      }
+      req.io.sockets.sockets[clientSocketId].emit('new-challenge-created', challengeData)
+    } catch (socketError) {
+      console.error('Socket notification has not been sent about paid challenge', streamerId, socketError)
+    }
+
     res.json({})
   } catch (err) {
     res.json({

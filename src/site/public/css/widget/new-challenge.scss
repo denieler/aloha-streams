@@ -3,6 +3,8 @@
   height: 13.5rem;
   margin: 0 auto;
   transform: translateY(50%);
+  opacity: 0;
+  transition: 1s ease-in opacity;
 }
 
 .new-challege__header {
