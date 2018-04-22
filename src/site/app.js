@@ -35,12 +35,13 @@ if (process.env.NODE_ENV === 'production') {
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
-const challengeController = require('./controllers/challenge');
-const challengeListWidgetController = require('./controllers/challengeListWidget');
+const homeController = require('./controllers/home')
+const userController = require('./controllers/user')
+const apiController = require('./controllers/api')
+const contactController = require('./controllers/contact')
+const challengeController = require('./controllers/challenge')
+const challengeListWidgetController = require('./controllers/challengeListWidget')
+const newChallengeWidgetController = require('./controllers/newChallengeWidget')
 
 /**
  * API keys and Passport configuration.
@@ -161,6 +162,7 @@ app.post('/challenge/reject', challengeController.postRejectChallenge);
 app.post('/challenge/done', challengeController.postDoneChallenge);
 
 app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget);
+app.get('/widget/new-challenge/:streamerId', newChallengeWidgetController.getNewChallengeWidget);
 
 /**
  * API examples routes.

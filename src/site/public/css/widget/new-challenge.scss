@@ -1,0 +1,48 @@
+.new-challege {
+  width: 20.5rem;
+  height: 13.5rem;
+  margin: 0 auto;
+  transform: translateY(50%);
+}
+
+.new-challege__header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.new-challege__header__line {
+  display: inline-block;
+  font-size: 1rem;
+  padding: .16rem .42rem;
+  margin-bottom: .25rem;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.new-challege__header__line__nickname {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.new-challege__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: .42rem;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.new-challege__body__text {
+  width: 17.6rem;
+  text-align: center;
+}
+
+.new-challege__body__reward {
+  margin-top: .42rem;
+}
+
+.new-challege__body__reward__price {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
