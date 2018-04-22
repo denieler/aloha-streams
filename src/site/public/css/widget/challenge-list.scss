@@ -1,0 +1,84 @@
+.w-challege-list {
+  color: #D4DCEA;
+  background-color: #1E253C;
+
+  width: 800px;
+  height: 405px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  padding: 1rem .8rem;
+}
+
+.--transparent-bg {
+  background-color: rgba(30, 37, 60, 0.8); //#D4DCEA
+}
+
+.w-challege-list__status-header_line{
+  margin-top: 2px;
+  width: 8rem;
+  height: 2px;
+  background-color: #D4DCEA;
+}
+
+.w-challege-list__project-name {
+  position: absolute;
+  right: .8rem;
+  top: 1rem;
+}
+
+.challenge-list {
+  margin-top: 1.2rem;
+  height: calc(405px - 10px * 2 - 1rem - 2px);
+  overflow: hidden;
+  opacity: 1;
+}
+
+.challenge {
+  margin: 0 0 1.2rem 0;
+}
+
+.challenge__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.--done {
+  text-decoration: line-through;
+}
+
+.details {
+  font-size: .8rem;
+  margin: .8rem 0 0 .8rem;
+}
+
+.details__line {
+  display: flex;
+  margin-bottom: .4rem;
+}
+
+.details__line__name {
+  width: 8rem;
+}
+
+.challenge-list__no-challenges-text {
+  margin-top: 1.6rem;
+  text-align: center;
+}
+
+.--hidden {
+  display: none;
+}
+
+.--fade-out {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+
+.--fade-in {
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
