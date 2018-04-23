@@ -14,7 +14,6 @@ exports.sendNewChallengeNotification = function (io, socketIoClients, streamerId
       nickname: challenge.viewer.nickname
     }
 
-    console.log('arr:', clientSocketIds)
     clientSocketIds.map(clientSocketId => {
       if (io.sockets.sockets[clientSocketId]) {
         io.sockets.sockets[clientSocketId].emit('new-challenge-created', challengeData)
