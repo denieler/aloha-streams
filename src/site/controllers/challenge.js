@@ -142,7 +142,6 @@ exports.postNewChallengePayment = async (req, res) => {
   const challengeId = req.params.challengeId
   const tokenId = req.body.tokenId
   const paymentMehtod = req.body.paymentMehtod
-  // const platformStatus = req.body.status
 
   const errors = req.validationErrors()
 

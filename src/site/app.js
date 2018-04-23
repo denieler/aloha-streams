@@ -278,7 +278,30 @@ app.listen(app.get('port'), () => {
 
 io.on('connection', function (socket) {
   const streamerId = socket.handshake.query.streamerId
-  socketIoClients[streamerId] = socket.id
+  const socketId = socket.id
+
+  // eslint-disable-next-line
+  console.log('Socket Connected streamer - ', streamerId, ', socket id - ', socketId)
+
+  if (socketIoClients[streamerId]) {
+    if (socketIoClients[streamerId].find(id => socketId) > -1) {
+      return
+    }
+
+    socketIoClients[streamerId].push(socketId)
+  } else {
+    socketIoClients[streamerId] = [socketId]
+  }
+
+  socket.on('disconnect', function () {
+    // eslint-disable-next-line
+    console.log('Socket Disconnected streamer - ', streamerId, ' socket id - ', socketId)
+    if (!socketIoClients[streamerId]) {
+      return
+    }
+
+    socketIoClients[streamerId] = socketIoClients[streamerId].filter(id => id === socketId)
+  })
 })
 
 module.exports = app

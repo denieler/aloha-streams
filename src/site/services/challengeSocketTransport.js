@@ -2,8 +2,8 @@ const utils = require('../utils/durationFormatter')
 
 exports.sendNewChallengeNotification = function (io, socketIoClients, streamerId, challenge) {
   try {
-    const clientSocketId = socketIoClients[streamerId]
-    if (!clientSocketId) {
+    const clientSocketIds = socketIoClients[streamerId]
+    if (!clientSocketIds) {
       return
     }
 
@@ -14,9 +14,12 @@ exports.sendNewChallengeNotification = function (io, socketIoClients, streamerId
       nickname: challenge.viewer.nickname
     }
 
-    if (io.sockets.sockets[clientSocketId]) {
-      io.sockets.sockets[clientSocketId].emit('new-challenge-created', challengeData)
-    }
+    console.log('arr:', clientSocketIds)
+    clientSocketIds.map(clientSocketId => {
+      if (io.sockets.sockets[clientSocketId]) {
+        io.sockets.sockets[clientSocketId].emit('new-challenge-created', challengeData)
+      }
+    })
   } catch (socketError) {
     console.error('Socket notification has not been sent about paid challenge', streamerId, socketError)
   }
