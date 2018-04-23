@@ -73,6 +73,7 @@ mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 mongoose.connection.on('error', (err) => {
   console.error(err)
+  // eslint-disable-next-line
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'))
   process.exit()
 })
@@ -125,19 +126,19 @@ app.use((req, res, next) => {
       req.path !== '/signup' &&
       !req.path.match(/^\/auth/) &&
       !req.path.match(/\./)) {
-    req.session.returnTo = req.path;
+    req.session.returnTo = req.path
   } else if (req.user &&
       req.path === '/account') {
-    req.session.returnTo = req.path;
+    req.session.returnTo = req.path
   }
-  next();
-});
+  next()
+})
 app.use((req, res, next) => {
   req.io = io
   req.socketIoClients = socketIoClients
   next()
 })
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 /**
  * Primary app routes.
