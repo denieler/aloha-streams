@@ -1,7 +1,7 @@
 extends ./widget-layout
 
 block content
-  script(id='json-socket-config' type='application/json').
+  script(id='json-socket-config', type='application/json').
     {
       "serverUrl": "#{serverUrl}",
       "streamerId": "#{streamerId}"
@@ -14,10 +14,13 @@ block content
       .new-challege__header__line New challenge
       .new-challege__header__line
         | from 
-        span.new-challege__header__line__nickname(id='new-challenge-nickname') #{nickname}
+        span.new-challege__header__line__nickname(id='new-challenge-nickname')
     
     .new-challege__body
-      .new-challege__body__text(id='new-challenge-name') #{challengeText}
+      .new-challege__body__text(id='new-challenge-name')
+      .new-challege__body__duration
+        | During: 
+        span.new-challege__body__duration__time(id='new-challenge-duration')
       .new-challege__body__reward
         | Price: 
-        span.new-challege__body__reward__price(id='new-challenge-price') #{price}
+        span.new-challege__body__reward__price(id='new-challenge-price')

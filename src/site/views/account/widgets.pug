@@ -1,6 +1,11 @@
 extends ../layout
 
 block content
+  script(id='json-widget-config', type='application/json').
+    {
+      "newChallengeWidgetTestNewChallegeLink": "#{newChallengeWidgetTestNewChallegeLink}"
+    }
+  script(src='/js/account/widget.js')
   .aloha-container
     h1.aloha-header Widgets
   
@@ -23,5 +28,19 @@ block content
           div.widgets__widget-example__image
             img(src='/images/widget/challenge-list-widget-example.png', style='height: 350px; margin: 15px 0;')
 
-    //- div
-    //-   legend New Challenge notifier
+    .widgets__settings-block
+      legend New Challenge notification widget
+
+      div
+        p.widgets__widget-description Widget notify when you have a new challenge during your stream.
+
+        p Widget URL:
+
+        .input-group
+          input.form-control(value=newChallengeWidgetLink, id='new-challenge-widget-link')
+          .input-group-btn
+            button.btn.btn-default(data-clipboard-target="#new-challenge-widget-link")
+              i.fa.fa-copy
+
+        .widget__test-buttons
+          button.widget__test-buttons__button(id='new-challenge-widget-test-task-link') Test new challenge

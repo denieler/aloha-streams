@@ -14,3 +14,18 @@
   display: flex;
   justify-content: center;
 }
+
+.widget__test-buttons {
+  margin-top: 2rem;
+}
+
+.widget__test-buttons__button {
+  border-radius: 2px;
+  height: 4rem;
+  width: 17rem;
+  text-align: center;
+  transition: 200ms all;
+  background-color: #01A9AA;
+  color: #ffffff;
+  margin-top: 1rem;  
+}

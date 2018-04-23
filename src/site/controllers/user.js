@@ -450,8 +450,16 @@ exports.getWidgetsConfiguration = (req, res, next) => {
   const challengeListWidgetLink = getFullUrlFromRequest(req) +
     '/widget/challenge-list/' + req.user.id
 
+  const newChallengeWidgetLink = getFullUrlFromRequest(req) +
+    '/widget/new-challenge/' + req.user.id
+
+  const newChallengeWidgetTestNewChallegeLink = getFullUrlFromRequest(req) +
+    '/widget/new-challenge/test-task/' + req.user.id
+
   res.render('account/widgets', {
-    challengeListWidgetLink
+    challengeListWidgetLink,
+    newChallengeWidgetLink,
+    newChallengeWidgetTestNewChallegeLink
   })
 }
 

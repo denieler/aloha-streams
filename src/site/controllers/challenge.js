@@ -6,6 +6,7 @@ const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const PAYMENT_STATUS = require('../constants/paymentStatus')
 const utils = require('../utils/durationFormatter')
 const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
+const challengeSocketTransport = require('../services/challengeSocketTransport')
 
 /**
  * GET /challenges/new
@@ -167,18 +168,12 @@ exports.postNewChallengePayment = async (req, res) => {
       payment: payment._id
     })
 
-    try {
-      const clientSocketId = req.socketIoClients[streamerId]
-      const challengeData = {
-        name: challenge.name,
-        price: challenge.price,
-        duration: utils.formatDuration(challenge.duration),
-        nickname: challenge.viewer.nickname
-      }
-      req.io.sockets.sockets[clientSocketId].emit('new-challenge-created', challengeData)
-    } catch (socketError) {
-      console.error('Socket notification has not been sent about paid challenge', streamerId, socketError)
-    }
+    challengeSocketTransport.sendNewChallengeNotification(
+      req.io,
+      req.socketIoClients,
+      streamerId,
+      challenge
+    )
 
     res.json({})
   } catch (err) {
