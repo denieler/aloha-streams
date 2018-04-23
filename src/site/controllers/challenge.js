@@ -6,6 +6,7 @@ const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const PAYMENT_STATUS = require('../constants/paymentStatus')
 const utils = require('../utils/durationFormatter')
 const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
+const challengeSocketTransport = require('../services/challengeSocketTransport')
 
 /**
  * GET /challenges/new
@@ -141,7 +142,6 @@ exports.postNewChallengePayment = async (req, res) => {
   const challengeId = req.params.challengeId
   const tokenId = req.body.tokenId
   const paymentMehtod = req.body.paymentMehtod
-  // const platformStatus = req.body.status
 
   const errors = req.validationErrors()
 
@@ -166,6 +166,13 @@ exports.postNewChallengePayment = async (req, res) => {
       status: CHALLENGE_STATUS.NEW,
       payment: payment._id
     })
+
+    challengeSocketTransport.sendNewChallengeNotification(
+      req.io,
+      req.socketIoClients,
+      streamerId,
+      challenge
+    )
 
     res.json({})
   } catch (err) {

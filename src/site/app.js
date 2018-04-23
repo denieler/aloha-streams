@@ -35,51 +35,62 @@ if (process.env.NODE_ENV === 'production') {
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
-const challengeController = require('./controllers/challenge');
-const challengeListWidgetController = require('./controllers/challengeListWidget');
+const homeController = require('./controllers/home')
+const userController = require('./controllers/user')
+const apiController = require('./controllers/api')
+const contactController = require('./controllers/contact')
+const challengeController = require('./controllers/challenge')
+const challengeListWidgetController = require('./controllers/challengeListWidget')
+const newChallengeWidgetController = require('./controllers/newChallengeWidget')
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+const passportConfig = require('./config/passport')
 
 /**
  * Create Express server.
  */
-const app = express();
+const app = express()
+
+app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0')
+app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000)
+app.set('socketIoPort', process.env.SOCKET_IO_PORT || 3001)
+
+/**
+ *  Socket server
+ */
+const socketServer = require('http').Server(app)
+const io = require('socket.io')(socketServer)
+const socketIoClients = []
+socketServer.listen(app.get('socketIoPort'))
 
 /**
  * Connect to MongoDB.
  */
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.Promise = global.Promise
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 mongoose.connection.on('error', (err) => {
-  console.error(err);
-  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-  process.exit();
-});
+  console.error(err)
+  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'))
+  process.exit()
+})
 
 /**
  * Express configuration.
  */
-app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
-app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-app.use(expressStatusMonitor());
-app.use(compression());
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
+app.use(expressStatusMonitor())
+app.use(compression())
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
-}));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
+}))
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(expressValidator())
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -89,23 +100,23 @@ app.use(session({
     autoReconnect: true,
     clear_interval: 3600
   })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
 app.use((req, res, next) => {
   if (req.path === '/api/upload') {
-    next();
+    next()
   } else {
-    lusca.csrf()(req, res, next);
+    lusca.csrf()(req, res, next)
   }
-});
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+})
+app.use(lusca.xframe('SAMEORIGIN'))
+app.use(lusca.xssProtection(true))
 app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
+  res.locals.user = req.user
+  next()
+})
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
@@ -120,6 +131,11 @@ app.use((req, res, next) => {
   }
   next();
 });
+app.use((req, res, next) => {
+  req.io = io
+  req.socketIoClients = socketIoClients
+  next()
+})
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
@@ -160,7 +176,9 @@ app.post('/challenge/accept', challengeController.postAcceptChallenge);
 app.post('/challenge/reject', challengeController.postRejectChallenge);
 app.post('/challenge/done', challengeController.postDoneChallenge);
 
-app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget);
+app.get('/widget/challenge-list/:streamerId', challengeListWidgetController.getChallengeListWidget)
+app.get('/widget/new-challenge/:streamerId', newChallengeWidgetController.getNewChallengeWidget)
+app.get('/widget/new-challenge/test-task/:streamerId', newChallengeWidgetController.getNewChallengeWidgetTestTask)
 
 /**
  * API examples routes.
@@ -246,14 +264,44 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 /**
  * Error Handler.
  */
-app.use(errorHandler());
+app.use(errorHandler())
 
 /**
  * Start Express server.
  */
 app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
-});
+  // eslint-disable-next-line
+  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'))
+  // eslint-disable-next-line
+  console.log('  Press CTRL-C to stop\n')
+})
 
-module.exports = app;
+io.on('connection', function (socket) {
+  const streamerId = socket.handshake.query.streamerId
+  const socketId = socket.id
+
+  // eslint-disable-next-line
+  console.log('Socket Connected streamer - ', streamerId, ', socket id - ', socketId)
+
+  if (socketIoClients[streamerId]) {
+    if (socketIoClients[streamerId].find(id => socketId) > -1) {
+      return
+    }
+
+    socketIoClients[streamerId].push(socketId)
+  } else {
+    socketIoClients[streamerId] = [socketId]
+  }
+
+  socket.on('disconnect', function () {
+    // eslint-disable-next-line
+    console.log('Socket Disconnected streamer - ', streamerId, ' socket id - ', socketId)
+    if (!socketIoClients[streamerId]) {
+      return
+    }
+
+    socketIoClients[streamerId] = socketIoClients[streamerId].filter(id => id === socketId)
+  })
+})
+
+module.exports = app
