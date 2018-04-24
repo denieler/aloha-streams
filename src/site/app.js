@@ -303,7 +303,7 @@ io.on('connection', function (socket) {
       return
     }
 
-    socketIoClients[streamerId] = socketIoClients[streamerId].filter(id => id === socketId)
+    socketIoClients[streamerId] = socketIoClients[streamerId].filter(id => id !== socketId)
   })
 })
 
