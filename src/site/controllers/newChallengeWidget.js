@@ -8,7 +8,7 @@ const coolChallengesGenerator = require('../utils/coolChallengesGenerator')
  */
 exports.getNewChallengeWidget = (req, res) => {
   const streamerId = req.params.streamerId
-  const socketIoPort = req.app.get('socketIoPort')
+  const socketIoPort = req.app.get('socketIoClientPort')
   const serverUrl = getUrlWithoutPortFromRequest(req) + ':' + socketIoPort
 
   res.render('widget/new-challenge', {

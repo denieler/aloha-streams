@@ -57,6 +57,7 @@ app.enable('trust proxy')
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0')
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000)
 app.set('socketIoPort', process.env.SOCKET_IO_PORT || 3002)
+app.set('socketIoClientPort', process.env.SOCKET_IO_CLIENT_PORT || 3002)
 
 /**
  *  Socket server

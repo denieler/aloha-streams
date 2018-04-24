@@ -28,6 +28,7 @@ services:
       - MONGODB_URI=mongodb://db_mongo:27017/test 
       - ETHEREAL_USER=i7cau6crbi5nj64o@ethereal.email
       - ETHEREAL_PASSWORD=knKgq7vFbYNu7gecAj
+      - SOCKET_IO_CLIENT_PORT=443
     ports:
       - "3000:3000"
       - "3002:3002"
@@ -45,7 +46,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "3002:3002"
     volumes:
       - nginx-volume:/etc/letsencrypt
     links:
