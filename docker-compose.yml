@@ -30,6 +30,7 @@ services:
       - ETHEREAL_PASSWORD=knKgq7vFbYNu7gecAj
     ports:
       - "3000:3000"
+      - "3002:3002"
     links:
       - nodejs_server
       - db_mongo
@@ -44,6 +45,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "3002:3002"
     volumes:
       - nginx-volume:/etc/letsencrypt
     links:
