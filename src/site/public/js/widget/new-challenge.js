@@ -17,8 +17,11 @@ socket.on('new-challenge-created', function (challenge) {
   document.getElementById('new-challenge-name').textContent = name
   document.getElementById('new-challenge-duration').textContent = duration
   document.getElementById('new-challenge-price').textContent = price + '$'
+  const newChallengeShowSound = document.getElementById('new-challenge-show-sound')
+  newChallengeShowSound.play()
 
   setTimeout(() => {
     newChallengePanel.style.opacity = 0
-  }, 15000)
+    newChallengeShowSound.pause()
+  }, 11000)
 })
