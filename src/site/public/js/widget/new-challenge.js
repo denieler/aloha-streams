@@ -18,6 +18,7 @@ socket.on('new-challenge-created', function (challenge) {
   document.getElementById('new-challenge-duration').textContent = duration
   document.getElementById('new-challenge-price').textContent = price + '$'
   const newChallengeShowSound = document.getElementById('new-challenge-show-sound')
+  newChallengeShowSound.load()
   newChallengeShowSound.play()
 
   setTimeout(() => {
