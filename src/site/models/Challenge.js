@@ -20,7 +20,7 @@ const challengeSchema = new mongoose.Schema({
 
 const Challenge = mongoose.model('Challenge', challengeSchema)
 
-Challenge.add = ({
+Challenge.add = async ({
   name,
   description,
   price,
@@ -51,12 +51,15 @@ Challenge.add = ({
   challenge.challengeStatuses = [newChallengeStatusId]
 
   // add viewer
-  const viewerId = mongoose.Types.ObjectId()
-  const viewer = new Viewer({
-    _id: viewerId,
-    nickname
-  })
-  viewer.save()
+  let viewer = await Viewer.getByNickname(nickname)
+  if (!viewer) {
+    const viewerId = mongoose.Types.ObjectId()
+    viewer = new Viewer({
+      _id: viewerId,
+      nickname
+    })
+    viewer.save()
+  }
   challenge.viewer = viewer
 
   challenge.streamer = streamerId
