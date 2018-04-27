@@ -26,4 +26,10 @@ const viewerSchema = new mongoose.Schema({
 
 const Viewer = mongoose.model('Viewer', viewerSchema)
 
+Viewer.getByNickname = nickname => {
+  return Viewer
+    .findOne({ nickname })
+    .exec()
+}
+
 module.exports = Viewer
