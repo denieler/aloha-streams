@@ -5,7 +5,7 @@ const CHALLENGE_STATUS = require('../constants/challengeStatus')
 const { DEFAULT_FEE } = require('../constants/challengeConfiguration')
 const PAYMENT_STATUS = require('../constants/paymentStatus')
 const utils = require('../utils/durationFormatter')
-const { getFullUrlFromRequest } = require('../utils/fullUrlBuilder')
+const { getFullUrlFromRequest, getUrlWithoutPortFromRequest } = require('../utils/fullUrlBuilder')
 const challengeSocketTransport = require('../services/challengeSocketTransport')
 
 /**
@@ -95,15 +95,22 @@ exports.getMyStreamerChallenges = async (req, res) => {
     return res.redirect('/')
   }
 
-  const challenges = await Challenge.getAllForStreamer({ streamerId: req.user.id })
+  const streamerId = req.user.id
+
+  const challenges = await Challenge.getAllForStreamer({ streamerId })
   const onlyPaidChallenges = challenges.filter(challenge => {
     return challenge.currentChallengeStatus.status !== CHALLENGE_STATUS.NOT_PAID
   })
 
+  const socketIoPort = req.app.get('socketIoClientPort')
+  const serverUrl = getUrlWithoutPortFromRequest(req) + ':' + socketIoPort
+
   res.render('challenges/mine', {
     title: 'Challenges',
     challenges: onlyPaidChallenges,
-    formatDuration: utils.formatDuration
+    formatDuration: utils.formatDuration,
+    streamerId,
+    serverUrl
   })
 }
 

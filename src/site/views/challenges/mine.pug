@@ -1,6 +1,14 @@
 extends ../layout
 
 block content
+  script(id='json-socket-config', type='application/json').
+    {
+      "serverUrl": "#{serverUrl}",
+      "streamerId": "#{streamerId}"
+    }
+  script(src='/socket.io/socket.io.js')
+  script(src='/js/challenges/mine.js')
+
   .aloha-container
     h1.aloha-header Challenges
   
