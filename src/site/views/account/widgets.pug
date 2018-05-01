@@ -24,9 +24,9 @@ block content
               i.fa.fa-copy
         
         .widgets__widget-example
-          div Example how it looks like during the stream:
-          div.widgets__widget-example__image
-            img(src='/images/widget/challenge-list-widget-example.png', style='height: 350px; margin: 15px 0;')
+          div Example how it looks on a stream:
+          div.widgets__widget-example__image__wrapper
+            img.widgets__widget-example__image(src='/images/widget/challenge-list-widget-example.png')
 
     .widgets__settings-block
       legend New Challenge notification widget
@@ -44,3 +44,8 @@ block content
 
         .widget__test-buttons
           button.widget__test-buttons__button(id='new-challenge-widget-test-task-link') Test new challenge
+
+        .widgets__widget-example
+          div Example how it looks on a stream:
+          div.widgets__widget-example__image__wrapper
+            img.widgets__widget-example__image(src='/images/widget/new-challenge-widget-example.png')

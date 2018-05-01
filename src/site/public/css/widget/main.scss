@@ -11,7 +11,7 @@ html, body {
   box-sizing: border-box;
 
   font-size: 25px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Open Sans', Tahoma, sans-serif;
   text-rendering: optimizeLegibility;
   font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,4 +19,8 @@ html, body {
 
   width: 800px;
   height: 600px;
+}
+
+.container {
+  height: 100%;
 }
