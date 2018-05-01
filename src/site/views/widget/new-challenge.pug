@@ -8,6 +8,7 @@ block content
     }
   script(src='/socket.io/socket.io.js')
   script(src='/js/widget/new-challenge.js')
+  link(href='https://fonts.googleapis.com/css?family=Quicksand', rel='stylesheet')
   audio(id='new-challenge-show-sound')
     source(src='/sounds/eye_of_the_tiger.mp3' type='audio/mpeg')
 
@@ -20,8 +21,9 @@ block content
     
     .new-challege__body
       .new-challege__body__text(id='new-challenge-name')
+      .new-challege__body__line
       .new-challege__body__duration
-        | During: 
+        | Duration: 
         span.new-challege__body__duration__time(id='new-challenge-duration')
       .new-challege__body__reward
         | Price: 

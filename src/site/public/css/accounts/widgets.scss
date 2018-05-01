@@ -10,9 +10,14 @@
   margin: 4rem 0 4rem 0;
 }
 
-.widgets__widget-example__image {
+.widgets__widget-example__image__wrapper {
   display: flex;
   justify-content: center;
+}
+
+.widgets__widget-example__image {
+  height: 380px;
+  margin: 15px 0;
 }
 
 .widget__test-buttons {
